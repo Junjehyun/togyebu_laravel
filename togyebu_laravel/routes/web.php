@@ -7,4 +7,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/index', MainController::class, 'index')->name('index');
+Route::get('/index', [MainController::class, 'index'])->name('index');
