@@ -15,6 +15,9 @@
     @include('layouts.menu')
     <main class="flex-1 p-6">
         <div class="flex justify-end space-x-2">
+            <a href="{{ route('logout') }}" class="inline-block px-5 py-1.5 text-[#1b1b18] border border-transparent hover:border-[#19140035] rounded-sm text-sm leading-normal">
+                로그아웃
+            </a>
             <a href="{{ route('login') }}" class="inline-block px-5 py-1.5 text-[#1b1b18] border border-transparent hover:border-[#19140035] rounded-sm text-sm leading-normal">
                 로그인
             </a>

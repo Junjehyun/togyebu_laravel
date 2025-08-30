@@ -3,10 +3,12 @@
 @section('content')
     <div>
         <h1 class="text-2xl font-semi-bold mb-4">토계부(가칭)에 오신걸 환영합니다.</h1>
-        <p>로그인 후에 이용해주세요.</p>
+        <p>로그인 후, 이용해주세요.</p>
     </div>
     <div class="w-2/3 flex justify-between mt-20 mx-auto">
-        <h3>님의 최근 10경기 기록 ( 승 패 승률 )</h3>
+        <h3 class="flex">
+            <p class="font-bold text-sky-800">{{ $users[0]->name }}</p>님의 최근 10경기 기록 ( 승 패 승률 )
+        </h3>
         <a href="{{ route('record.add') }}" class="text-sm text-rose-400 hover:text-rose-600 mt-1">신규추가</a>
     </div>
     <table class="w-2/3 text-sm border-collapse mt-5 mx-auto">

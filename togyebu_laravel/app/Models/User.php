@@ -27,6 +27,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'account',
         'email',
         'password',
         'status',
@@ -69,5 +70,9 @@ class User extends Authenticatable
             'password' => 'hashed',
             'last_login_at' => 'datetime',
         ];
+    }
+
+    public function records() {
+        return $this->hasMany(Record::class);
     }
 }
