@@ -11,7 +11,12 @@
     </div>
     <div class="w-2/3 flex justify-between mt-20 mx-auto">
         <h3 class="flex">
-            <p class="font-bold text-sky-800">@auth {{ $users[0]->name }}</p>님의 최근 10경기 기록 ( 승 패 승률 ) @else <p class="font-bold">로그인 후, 이용 부탁드립니다.</p> @endauth
+            <p class="font-bold text-sky-800">
+                @auth 
+                    {{ $users->name }}</p>님의 최근 10경기 기록 ( 승 패 승률 ) 
+                @else 
+                    <p class="font-bold">로그인 후, 이용 부탁드립니다.</p> 
+                @endauth
         </h3>
         @auth
             <a href="{{ route('record.add') }}" class="text-sm text-rose-400 hover:text-rose-600 mt-1">신규추가</a>
@@ -37,8 +42,8 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="border px-2 py-1"></td>
-                    <td class="border px-2 py-1"></td>
+                    <td class="border px-2 py-1">{{ $users->id }}</td>
+                    <td class="border px-2 py-1">{{ $users->betting_date }}</td>
                     <td class="border px-2 py-1"></td>
                     <td class="border px-2 py-1"></td>
                     <td class="border px-2 py-1"></td>

@@ -29,4 +29,23 @@ class AddRequest extends FormRequest
             'bet_amount'   => ['required', 'integer', 'min:1']
         ];
     }
+
+    public function messages() {
+        return [
+            'title.required' => '제목을 입력하세요.',
+            'betting_date.required' => '배팅 날짜을 입력하세요.',
+            'folder_count.required' => '폴더 수을 입력하세요.',
+            'odds.required' => '배당률을 입력하세요.',
+            'bet_amount.required' => '배팅 금액을 입력하세요.'
+        ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->has('bet_amount')) {
+            $this->merge([
+                'bet_amount' => str_replace(',', '', $this->bet_amount),
+            ]);
+        }
+    }
 }

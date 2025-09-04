@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddRequest;
+use App\Models\Record;
 use App\Models\User;
+
 
 class RecordController extends Controller
 {
@@ -25,8 +27,11 @@ class RecordController extends Controller
 
     public function addStore(AddRequest $request) {
 
+        //dd($request->all());
+
         $user = User::find(1); // 예시로 ID가 1인 사용자 조회
         $record = $user->records;
+        //dd($record);
 
         // 예상 적중금액 계산
         $expected = ($request->odds ?? 0) * ($request->bet_amount ?? 0); 
@@ -42,10 +47,9 @@ class RecordController extends Controller
             'win_amount' => $expected,
             'profit' => 0,
         ]);
-
+        return redirect()->route('main.index')->with('success', '기록이 저장되었습니다.');
         
 
-        return redirect('main.index', [
-        ]);
+     //return redirect()->route('main.index');
     }
 }
