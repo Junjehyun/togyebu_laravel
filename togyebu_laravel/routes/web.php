@@ -25,7 +25,7 @@ Route::prefix('main')->name('main.')->group(function () {
 
 // RecordController
 Route::prefix('record')->name('record.')->group(function () {
-    Route::get('/record/history', [RecordController::class, 'history'])->name('history');
-    Route::get('/record/add', [RecordController::class, 'add'])->name('add');
-    Route::post('/record/addStore', [RecordController::class, 'addStore'])->name('addStore');
+    Route::get('/history', [RecordController::class, 'history'])->name('history');
+    Route::get('/add', [RecordController::class, 'add'])->name('add');
+    Route::post('/addStore', [RecordController::class, 'addStore'])->name('addStore');
 });  

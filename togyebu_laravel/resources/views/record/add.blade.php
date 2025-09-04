@@ -22,12 +22,12 @@
                 <tbody>
                     <tr>
                         <td class="border px-3 py-2">
-                            <input type="text" name="description"
+                            <input type="text" name="title"
                                     class="w-full border rounded px-2 py-1 text-sm"
                                     placeholder="자유롭게 입력">
                         </td>
                         <td class="border px-3 py-2">
-                            <input type="text" name="date"
+                            <input type="text" name="betting_date"
                                     class="w-full border rounded px-2 py-1 text-sm" placeholder="ex)19001212">
                         </td>
                         <td class="border px-3 py-2">
