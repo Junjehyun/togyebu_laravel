@@ -30,7 +30,7 @@
             <li>
                 <a href="#"
                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
-                    토론의 장
+                    토론게시판
                 </a>
             </li>
             <li>

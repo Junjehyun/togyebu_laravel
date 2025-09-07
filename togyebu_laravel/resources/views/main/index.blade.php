@@ -4,7 +4,7 @@
     <div>
         <h1 class="text-2xl font-semi-bold mb-4">토계부(가칭)에 오신걸 환영합니다.</h1>
         @auth
-            <p>{{ Auth::user()->name }}님, 환영합니다.</p>
+            <p>{{ Auth::user()->name }}님, 오늘 하루도 건승입니다.</p>
         @else
             <p>로그인 후, 이용해주세요.</p>
         @endauth
@@ -57,13 +57,15 @@
                                 <option value="draw">적특</option>
                             </select>
                         </td>
-                        <td class="border px-2 py-1 text-center profit-cell">?</td>
-                        <th class="border px-2 py-1">
-                            <button class="text-rose-600">확정</button>
+                        <td class="border px-2 py-1 text-center profit-cell">
+                            ?
                         </td>
-                        <th class="border px-2 py-1">
+                        <td class="border px-2 py-1">
+                            <button type="submit" class="text-rose-600">확정</button>
+                        </td>
+                        <td class="border px-2 py-1">
                             <button class="text-indigo-400">편집</button>
-                        </th>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -114,6 +116,15 @@
                             profitCell.textContent = result.toLocaleString("ko-KR") + "₩";
                             if(cssClass) profitCell.classList.add(cssClass);
                         }
+                    });
+                });
+
+                document.querySelectorAll("form").forEach(form => {
+                    const select = form.closest("tr").querySelector(".result-select");
+                    const hiddenResult = form.querySelector("input[name='result']");
+
+                    form.addEventListener("submit", function() {
+                        hiddenResult.value = select.value; // 선택된 값 담기
                     });
                 });
             });
