@@ -34,6 +34,7 @@ return new class extends Migration
             $table->unsignedBigInteger('profit')->default(0); // 수익금(적중금)
             
             $table->timestamps(); // created_at, updated_at
+            
         });
     }
 

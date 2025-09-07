@@ -28,4 +28,5 @@ Route::prefix('record')->name('record.')->group(function () {
     Route::get('/history', [RecordController::class, 'history'])->name('history');
     Route::get('/add', [RecordController::class, 'add'])->name('add');
     Route::post('/addStore', [RecordController::class, 'addStore'])->name('addStore');
+    // 적중, 미적중 ajax 처리 
 });  

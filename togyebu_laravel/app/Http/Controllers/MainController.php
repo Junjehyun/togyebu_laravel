@@ -17,7 +17,9 @@ class MainController extends Controller
         // 로그인 한 유저 정보
         $users = Auth::user();
         // 로그인 한 유저의 기록들
-        $records = Record::where('user_id', $users->id ?? '')->get();
+        $records = Record::where('user_id', $users->id ?? '')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('main.index', [
             'users' => $users,

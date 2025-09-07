@@ -11,7 +11,13 @@
                 <li>
                     <a href="{{ route('record.history') }}"
                     class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
-                        {{ Auth::user()->name }}님의 배팅 기록
+                        {{ Auth::user()->name }}님의 배팅기록
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
+                        입출금 내역기록
                     </a>
                 </li>
                 <li>
