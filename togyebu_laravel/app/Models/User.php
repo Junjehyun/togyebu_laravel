@@ -9,7 +9,14 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Record;
 
+/**
+ * App\Models\User
+ *
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Record[] $records
+ * @method \Illuminate\Database\Eloquent\Relations\HasMany records()
+ */
 class User extends Authenticatable
 {
     use HasApiTokens;

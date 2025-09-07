@@ -41,24 +41,44 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="border px-2 py-1">{{ $users->id }}</td>
-                    <td class="border px-2 py-1">{{ $users->betting_date }}</td>
-                    <td class="border px-2 py-1"></td>
-                    <td class="border px-2 py-1"></td>
-                    <td class="border px-2 py-1"></td>
-                    <td class="border px-2 py-1"></td>
-                    <td class="border px-2 py-1"></td>
-                    <td class="border px-2 py-1"></td>
-                    <td class="border px-2 py-1"></td>
-                    <td class="border px-2 py-1"></td>
-                    <th class="border px-2 py-1"></td>
-                    <th class="border px-2 py-1"></th>
-                </tr>
+                @foreach($records as $record)
+                    <tr>
+                        <td class="border px-2 py-1">{{ $record->id }}</td>
+                        <td class="border px-2 py-1">{{ $record->betting_date->format('y/m/d') }}</td>
+                        <td class="border px-2 py-1">{{ $record->title }}</td>
+                        <td class="border px-2 py-1">{{ rtrim(rtrim(number_format($record->odds, 2, '.', ''), '0'), '.') }}</td>
+                        <td class="border px-2 py-1">{{ $record->bet_amount }}</td>
+                        <td class="border px-2 py-1">{{ $record->folder_count }}</td>
+                        <td class="border px-2 py-1">{{ $record->win_amount }}</td>
+                        <td class="border px-2 py-1">
+                            <select class="border rounded px-2 py-1 text-sm appearance-none pr-7 bg-white" onchange="checkDraw(this)">
+                                <option value="pending">진행중</option>
+                                <option value="win">적중!!</option>
+                                <option value="lose">미적중..</option>
+                                <option value="draw">적특</option>
+                            </select>
+                        </td>
+                        <td class="border px-2 py-1"></td>
+                        <td class="border px-2 py-1"></td>
+                        <th class="border px-2 py-1">
+                            <button class="text-green-400">편집</button>
+                        </td>
+                        <th class="border px-2 py-1">
+                            <button class="text-rose-400">삭제</button>
+                        </th>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
         <div class="w-2/3 flex justify-end mt-3 mx-auto">
                 <a href="{{ route('record.history') }}" class="text-sm text-blue-400 hover:text-blue-600">전체 기록 보기</a>
         </div>
+        <script>
+            function checkDraw(selectElement) {
+                if(selectElement.value === 'draw') {
+                    alert('2폴더 이상의 부분 적중특례인 경우, 편집에서 배당값을 직접 수정해주세요.')
+                }
+            }
+        </script>
     @endauth
 @endsection
