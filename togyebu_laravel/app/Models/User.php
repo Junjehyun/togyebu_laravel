@@ -79,7 +79,13 @@ class User extends Authenticatable
         ];
     }
 
+    // Record 모델과의 관계 설정
     public function records() {
         return $this->hasMany(Record::class);
+    }
+
+    // UserStat 모델과의 관계 설정
+    public function userStats() {
+        return $this->hasOne(UserStat::class);
     }
 }

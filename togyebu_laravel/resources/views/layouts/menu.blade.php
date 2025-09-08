@@ -1,7 +1,7 @@
 <aside class="w-52 h-screen text-gray-700 flex flex-col border-r border-gray-300">
     <!-- 로고/브랜드 영역 -->
     <div class="h-16 flex items-center justify-center border-b border-gray-300">
-        <a href="{{ route('main.index') }}" class="text-lg font-bold">TOGYE(가칭)</a>
+        <a href="{{ route('main.index') }}" class="text-lg font-bold">TGB</a>
     </div>
 
     <!-- 메뉴 리스트 -->

@@ -38,7 +38,7 @@
             @endauth
         </div>
         @if ($errors->any())
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+            <div id="alert-error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4 transition-opacity duration-1000">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -46,7 +46,31 @@
                 </ul>
             </div>
         @endif
+        @if (session('success'))
+            <div id="alert-success" class="w-2/3 mx-auto mt-4 p-3 rounded bg-green-100 text-green-800 text-sm transition-opacity duration-1000">
+                {{ session('success') }}
+            </div>
+        @endif
         @yield('content')
     </main>
 </body>
-</html>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // 공통 처리 함수
+        function fadeOut(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                setTimeout(() => {
+                    el.classList.add("opacity-0"); // 투명화
+                    // 애니메이션 끝난 후 DOM에서 제거하고 싶으면 아래 추가
+                    setTimeout(() => el.remove(), 1000);
+                }, 3000); // 3초 뒤 시작
+            }
+        }
+
+        fadeOut("alert-error");
+        fadeOut("alert-success");
+    });
+</script>
+
+</html> 

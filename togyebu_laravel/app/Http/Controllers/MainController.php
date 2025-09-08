@@ -21,9 +21,24 @@ class MainController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        // 확정된 경기 수 (win, lose, draw만 카운트함)
+        $confirmedRecords = $records->whereIn('result', ['win', 'lose', 'draw'])->count();
+
+        // 유저의 승률 계산 
+        $wins = $records->where('result', 'win')->count();
+        $losses = $records->where('result', 'lose')->count();
+        $draws = $records->where('result', 'draw')->count();
+
+        $winRate = $confirmedRecords > 0 ? round(($wins / $confirmedRecords) * 100, 2) : 0;
+
         return view('main.index', [
             'users' => $users,
             'records' => $records,
+            'confirmedRecords' => $confirmedRecords,
+            'wins' => $wins,
+            'losses' => $losses,
+            'draws' => $draws,
+            'winRate' => $winRate,
         ]);
     }
 }

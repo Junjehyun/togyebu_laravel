@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddRequest;
 use App\Models\Record;
 use App\Models\User;
+use App\Models\UserStat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class RecordController extends Controller
@@ -45,53 +47,50 @@ class RecordController extends Controller
             'win_amount' => $expected,
             'profit' => 0,
         ]);
-        return redirect()->route('main.index')->with('success', '기록이 저장되었습니다.');
+        return redirect()->route('main.index')->with('success', '베팅 기록이 저장되었습니다.');
         
     }
 
     public function betConfirm(Request $request) {
 
-        //dd($request->all());
-
         // record 조회
-        $record = Record::findOrFail($request->id);
+        $records = Record::findOrFail($request->id);
+        $users = Auth::user();
 
-        // 이미 확정된 경우 차단 
-        if($record->result !== 'pending') {
-            return response()->json([
-                'success' => false,
-                'message' => '이미 확정된 기록입니다.'
-            ]);
-        }
+        $userStats = $records->user->userStats ?? new UserStat(['user_id' => $records->user->id]);
 
         // 수익 계산 
-        $bet = $record->bet_amount;
-        $odds = $record->odds;
+        $bet = $records->bet_amount;
+        $odds = $records->odds;
 
         switch($request->input('result')) {
             case 'win':
-                $record->result = 'win';
-                $record->win_amount = $bet * $odds;
-                $record->profit = $record->win_amount - $bet;
+                $records->result = 'win';
+                $records->win_amount = $bet * $odds;
+                $records->profit = $records->win_amount - $bet;
+                $userStats->betting_total_win++;
                 break;
             case 'lose':
-                $record->result = 'lose';
-                $record->win_amount = 0;
-                $record->profit = -$bet;
+                $records->result = 'lose';
+                $records->win_amount = $bet * $odds;;
+                $records->profit = -$bet;
+                $userStats->betting_total_loss++;
                 break;
             case 'draw':
-                $record->result = 'draw';
-                $record->win_amount = 0;
-                $record->profit = 0;
+                $records->result = 'draw';
+                $records->win_amount = $bet * $odds;;
+                $records->profit = 0;
+                $userStats->betting_total_draw++;
                 break;
         }
-        $record->save();
+        $records->save();
 
-        $user = $record->user;
-        $user->balance += $record->profit;
+        $user = $records->user;
+        $user->balance += $records->profit;
         $user->save();
 
         return back()->with('success', '베팅 결과가 확정되었습니다.');
+
     }
     
 }
