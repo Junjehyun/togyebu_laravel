@@ -16,24 +16,26 @@ class MainController extends Controller
 
         // 로그인 한 유저 정보
         $users = Auth::user();
-        // 로그인 한 유저의 기록들
-        $records = Record::where('user_id', $users->id ?? '')
+
+        // 최근 10개 기록 
+        $latestRecords = Record::where('user_id', $users->id ?? '')
             ->orderBy('created_at', 'desc')
+            ->take(10)
             ->get();
 
         // 확정된 경기 수 (win, lose, draw만 카운트함)
-        $confirmedRecords = $records->whereIn('result', ['win', 'lose', 'draw'])->count();
+        $confirmedRecords = $latestRecords->whereIn('result', ['win', 'lose', 'draw'])->count();
 
         // 유저의 승률 계산 
-        $wins = $records->where('result', 'win')->count();
-        $losses = $records->where('result', 'lose')->count();
-        $draws = $records->where('result', 'draw')->count();
+        $wins = $latestRecords->where('result', 'win')->count();
+        $losses = $latestRecords->where('result', 'lose')->count();
+        $draws = $latestRecords->where('result', 'draw')->count();
 
         $winRate = $confirmedRecords > 0 ? round(($wins / $confirmedRecords) * 100, 2) : 0;
 
         return view('main.index', [
             'users' => $users,
-            'records' => $records,
+            'records' => $latestRecords,
             'confirmedRecords' => $confirmedRecords,
             'wins' => $wins,
             'losses' => $losses,

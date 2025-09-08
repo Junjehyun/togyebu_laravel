@@ -1,7 +1,7 @@
 @extends('layouts.common')
 @section('title', 'MAIN')
 @section('content')
-    <div>
+    <div class="transition-all duration-700 ease-out transform opacity-0 translate-y-4 animate-fadeInUp">
         <h1 class="text-2xl font-semi-bold mb-4">TGB</h1>
         @auth
             <p>{{ Auth::user()->name }}님, 오늘 하루도 건승입니다.</p>
@@ -9,27 +9,89 @@
             <p>로그인 후, 이용해주세요.</p>
         @endauth
     </div>
-    <div class="w-2/3 flex justify-between mt-20 mx-auto">
-        <h3 class="flex flex-col">
-            <p class="font-bold text-sky-800">
-                @auth 
-                    {{ $users->name }}</p>
-                    <p class="mt-1">
-                        최근 10경기 기록 ( {{ $wins }}승 {{ $losses }}패 승률: {{ $winRate }}% )
-                    </p>
-                    <p class="mt-1">
-                        잔고: {{ number_format($users->balance) }}₩
-                    </p>
-                @else 
-                    <p class="font-bold">로그인 후, 이용 부탁드립니다.</p> 
-                @endauth
-        </h3>
-        @auth
-            <a href="{{ route('record.add') }}" class="text-sm text-rose-400 hover:text-rose-600 mt-1">신규추가</a>
-        @endauth
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+    </style>
+    <div class="w-2/3 mt-15 mx-auto">
+        <p class="text-center font-bold text-sky-800">
+            @auth 
+                {{ $users->name }} <span class="text-black font-semibold">님의 누적기록</span>
+            @endauth
+        </p>
+        <div class="w-2/3 mx-auto mt-5 grid grid-cols-3 gap-3 text-center">
+            <!-- 누적 수익 -->
+            <div class="p-3 rounded border">
+                <p class="text-sm text-gray-500">누적 수익</p>
+                <p class="mt-1"> 
+                    <span class="{{ $users->balance < 0 ? 'text-red-600 font-bold' : 'text-blue-600 font-bold' }}">
+                        {{ $users->balance > 0 ? '+' . number_format($users->balance) : number_format($users->balance) }}원
+                    </span>
+                </p>
+            </div>
+            <!-- 최근 10경기 기록 -->
+            <div class="p-3 rounded border">
+                <p class="text-sm text-gray-500">최근 10경기</p>
+                <p class="text-lg font-bold">
+                    {{ $wins }}승 {{ $losses }}패 ({{ $winRate }}%)
+                </p>
+            </div>
+            <!-- 환수율 -->
+            <div class="p-3 rounded border">
+                <p class="text-sm text-gray-500">환수율</p>
+                <p class="text-lg font-bold text-blue-600">88%</p>
+            </div>
+            <!-- 베팅총액 -->
+            <div class="p-3 rounded border">
+                <p class="text-sm text-gray-500">베팅총액</p>
+                <p class="text-lg font-bold">1,260,000₩</p>
+            </div>
+            <!-- 적중률 -->
+            <div class="p-3 rounded border">
+                <p class="text-sm text-gray-500">적중률</p>
+                <p class="text-lg font-bold">10.00%</p>
+            </div>
+            <!-- 평균배당 -->
+            <div class="p-3 rounded border">
+                <p class="text-sm text-gray-500">평균배당</p>
+                <p class="text-lg font-bold">11.99</p>
+            </div>
+            <!-- 최다연승 -->
+            <div class="p-3 rounded border">
+                <p class="text-sm text-gray-500">최다연승</p>
+                <p class="text-lg font-bold">1</p>
+            </div>
+            <!-- 최다연패 -->
+            <div class="p-3 rounded border">
+                <p class="text-sm text-gray-500">최다연패</p>
+                <p class="text-lg font-bold">13</p>
+            </div>
+            <!-- 신규 추가 -->
+             <div class="p-3 rounded bg-rose-50">
+                <p class="text-md font-bold text-rose-500 hover:text-rose-600 mt-3">
+                    @auth
+                        <a href="{{ route('record.add') }}">신규추가</a>
+                    @endauth
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="w-2/3 flex justify-between mx-auto">
+        <h2 class="text-xl font-semibold mt-10">최근 10경기 기록</h2>
     </div>
     @auth
-        <table class="w-2/3 text-sm border-collapse mt-5 mx-auto">
+        <table class="w-2/3 text-sm border-collapse mt-2 mx-auto">
             <thead class="bg-gray-50">
                 <tr>
                     <th class="border px-2 py-1">순번</th>
@@ -41,13 +103,15 @@
                     <th class="border px-2 py-1">적중금액</th>
                     <th class="border px-2 py-1">적중유무</th>
                     <th class="border px-2 py-1">수익</th>
-                    <th class="border px-2 py-1"></th>
-                    <th class="border px-2 py-1"></th>
+                    <th class="border px-2 py-1">확정</th>
+                    <th class="border px-2 py-1">
+                        
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($records as $record)
-                    <tr data-bet="{{ $record->bet_amount }}" data-odds="{{ $record->odds }}">
+                    <tr data-bet="{{ $record->bet_amount }}" data-odds="{{ $record->odds }}" class="@if($record->result === 'win') bg-indigo-50 @elseif($record->result === 'lose') bg-fuchsia-50 @elseif($record->result === 'draw') bg-gray-100 @endif">
                         <td class="border px-2 py-1 text-center">{{ $record->id }}</td>
                         <td class="border px-2 py-1">{{ $record->betting_date->format('y/m/d') }}</td>
                         <td class="border px-2 py-1">{{ $record->title }}</td>

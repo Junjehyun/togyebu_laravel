@@ -34,10 +34,10 @@
                 </a>
             </li>
             <li>
-                <!-- <a href="#"
+                <a href="#"
                    class="block px-3 py-2 rounded-md hover:bg-gray-700 transition">
-                    회원정보수정
-                </a> -->
+                    문의 / 건의
+                </a>
             </li>
             <!-- 필요하면 계속 추가 -->
         </ul>
