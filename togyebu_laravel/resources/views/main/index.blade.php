@@ -32,7 +32,7 @@
         </p>
         <div class="w-2/3 mx-auto mt-5 grid grid-cols-3 gap-3 text-center">
             <!-- 누적 수익 -->
-            <div class="p-3 rounded border">
+            <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">누적 수익</p>
                 <p class="mt-1"> 
                     <span class="{{ $users->balance < 0 ? 'text-red-600 font-bold' : 'text-blue-600 font-bold' }}">
@@ -41,39 +41,39 @@
                 </p>
             </div>
             <!-- 최근 10경기 기록 -->
-            <div class="p-3 rounded border">
+            <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">최근 10경기</p>
                 <p class="text-lg font-bold">
                     {{ $wins }}승 {{ $losses }}패 ({{ $winRate }}%)
                 </p>
             </div>
             <!-- 환수율 -->
-            <div class="p-3 rounded border">
+            <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">환수율</p>
                 <p class="text-lg font-bold text-blue-600">88%</p>
             </div>
             <!-- 베팅총액 -->
-            <div class="p-3 rounded border">
+            <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">베팅총액</p>
                 <p class="text-lg font-bold">1,260,000₩</p>
             </div>
             <!-- 적중률 -->
-            <div class="p-3 rounded border">
+            <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">적중률</p>
                 <p class="text-lg font-bold">10.00%</p>
             </div>
             <!-- 평균배당 -->
-            <div class="p-3 rounded border">
+            <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">평균배당</p>
                 <p class="text-lg font-bold">11.99</p>
             </div>
             <!-- 최다연승 -->
-            <div class="p-3 rounded border">
+            <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">최다연승</p>
                 <p class="text-lg font-bold">1</p>
             </div>
             <!-- 최다연패 -->
-            <div class="p-3 rounded border">
+            <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">최다연패</p>
                 <p class="text-lg font-bold">13</p>
             </div>

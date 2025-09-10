@@ -30,4 +30,6 @@ Route::prefix('record')->name('record.')->group(function () {
     Route::post('/addStore', [RecordController::class, 'addStore'])->name('addStore');
     // 베팅 확정처리 ajax
     Route::post('/betConfirm', [RecordController::class, 'betConfirm'])->name('betConfirm');
+    Route::get('/edit/{id}', [RecordController::class, 'edit'])->name('edit');
+    Route::post('/update/{id}', [RecordController::class, 'update'])->name('update');
 });  

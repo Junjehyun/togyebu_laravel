@@ -92,5 +92,15 @@ class RecordController extends Controller
         return back()->with('success', '베팅 결과가 확정되었습니다.');
 
     }
+
+    public function edit($id) {
+
+        return view('record.edit', []);
+    }
+
+    public function update($id) {
+
+        return view('record.history', []);
+    }
     
 }
