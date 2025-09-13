@@ -1,18 +1,18 @@
 @extends('layouts.common')
-@section('title', '신규추가')
+@section('title', '기록 편집')
 @section('content')
     <div class="mt-5">
-        <h1 class="text-xl flex justify-center">신규 추가</h1>
+        <h1 class="text-xl flex justify-center">기록 편집</h1>
     </div>
-    <form action="{{ route('record.store') }}" method="POST">
+    <form action="{{ route('record.update', ['id' => $record->id]) }}" method="POST">
         @csrf
         <div class="flex justify-center">
             <!-- 타이틀 행 -->
             <table class="w-2/3 border border-gray-300 text-sm mt-10">
                 <thead class="bg-zinc-50">
                     <tr>
-                        <th class="border px-3 py-2">제목</th>
                         <th class="border px-3 py-2">날짜</th>
+                        <th class="border px-3 py-2">제목</th>
                         <th class="border px-3 py-2">폴더수</th>
                         <th class="border px-3 py-2">배당</th>
                         <th class="border px-3 py-2">베팅금</th>
@@ -21,29 +21,30 @@
                 <!-- 입력 행 -->
                 <tbody>
                     <tr>
-                        <td class="border px-3 py-2">
+                        <td class="w-[15%] border px-3 py-2">
+                            <input type="text" name="betting_date"
+                                    class="w-full border rounded px-2 py-1 text-sm"
+                                    value="{{ \Carbon\Carbon::parse($record->betting_date)->format('y/m/d') }}">
+                        </td>
+                        <td class="w-[35%] border px-3 py-2">
                             <input type="text" name="title"
                                     class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="자유롭게 입력">
+                                    value="{{ $record->title }}">
                         </td>
-                        <td class="border px-3 py-2">
-                            <input type="text" name="betting_date"
-                                    class="w-full border rounded px-2 py-1 text-sm" placeholder="ex)19001212">
-                        </td>
-                        <td class="border px-3 py-2">
+                        <td class="w-[10%] border px-3 py-2">
                             <input type="text" name="folder_count"
                                     class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="3">
+                                    value="{{ $record->folder_count }}">
                         </td>
-                        <td class="border px-3 py-2">
+                        <td class="w-[10%] border px-3 py-2">
                             <input type="text" step="0.01" name="odds" id="odds"
                                     class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="2.35">
+                                    value="{{ $record->odds }}">
                         </td>
-                        <td class="border px-3 py-2">
+                        <td class="w-[10%] border px-3 py-2">
                             <input type="text" name="bet_amount" id="bet_amount"
                                     class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="100,000">
+                                    value="{{ $record->bet_amount }}">
                         </td>
                     </tr>
                 </tbody>
@@ -95,5 +96,7 @@
         betInput.addEventListener('focus', function () {
             this.value = this.value.replace(/,/g, '');
         });
+
+        window.addEventListener('DOMContentLoaded', updateExpected);
     </script>
 @endsection

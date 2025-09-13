@@ -165,7 +165,10 @@
                             @endif
                         </td>
                         <td class="border px-2 py-1">
-                            <button class="text-indigo-400">편집</button>
+                            <form action="{{ route('record.edit', ['id' => $record->id]) }}" method="GET">
+                                
+                                <button class="text-indigo-400">편집</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

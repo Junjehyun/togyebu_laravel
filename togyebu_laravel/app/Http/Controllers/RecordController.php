@@ -28,7 +28,7 @@ class RecordController extends Controller
         return view('record.add');
     }
 
-    public function addStore(AddRequest $request) {
+    public function store(AddRequest $request) {
 
         $user = User::find(1); // 예시로 ID가 1인 사용자 조회
         $record = $user->records;
@@ -95,7 +95,15 @@ class RecordController extends Controller
 
     public function edit($id) {
 
-        return view('record.edit', []);
+        $record = Record::findOrFail($id);
+
+        // 예상 적중금액 계산
+        $expected = ($request->odds ?? 0) * ($request->bet_amount ?? 0);
+
+        return view('record.edit', [
+            'record' => $record,
+            'expected' => $expected
+        ]);
     }
 
     public function update($id) {
