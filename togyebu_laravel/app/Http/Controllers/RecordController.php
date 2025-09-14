@@ -3,23 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddRequest;
+use App\Http\Requests\Record\UpdateRequest;
 use App\Models\Record;
 use App\Models\User;
 use App\Models\UserStat;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 
 class RecordController extends Controller
 {
     //
 
-    public function history() {
-        // 모든 사용자 조회
-        $users = User::all();
+    public function history(Request $request) {
+
+        $users = Auth::user();
+        $records = Record::where('user_id', $users->id)->get();
 
         return view('record.history', [
-            'users' => $users
+            'users' => $users,
+            'records' => $records
         ]);
     }
 
@@ -96,6 +99,7 @@ class RecordController extends Controller
     public function edit($id) {
 
         $record = Record::findOrFail($id);
+        //dd($record);
 
         // 예상 적중금액 계산
         $expected = ($request->odds ?? 0) * ($request->bet_amount ?? 0);
@@ -106,9 +110,39 @@ class RecordController extends Controller
         ]);
     }
 
-    public function update($id) {
+    public function update(UpdateRequest $request, $id) {
 
-        return view('record.history', []);
+        //dd($request->all());
+
+        $record = Record::findOrFail($id);
+
+        // 금액에서 콤마 제거 후 숫자 변환
+        $betAmount = (int) str_replace(',', '', $request->input('bet_amount'));
+
+        //$betting_date = Carbon::createFromFormat('y-m-d', $request->input('betting_date'))
+        //                      ->format('Y-m-d');
+        $betting_date = $request->input('betting_date');
+
+
+        // 기록 업데이트
+        $betting_date = $request->input('betting_date');
+        $title = $request->input('title');
+        $folder_count = $request->input('folder_count');
+        $odds = $request->input('odds');
+
+        // 업데이트 실행 (기록 수정)
+        $record->update([
+            'betting_date' => $betting_date,
+            'title' => $title,
+            'folder_count' => $folder_count,
+            'odds' => $odds,
+            'bet_amount' => $betAmount,
+        ]);
+
+        // 리다이렉트 및 성공 메시지 처리
+        return redirect()
+            ->route('record.history')
+            ->with('success', '베팅 기록이 수정되었습니다.');
     }
     
 }

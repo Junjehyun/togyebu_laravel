@@ -166,7 +166,6 @@
                         </td>
                         <td class="border px-2 py-1">
                             <form action="{{ route('record.edit', ['id' => $record->id]) }}" method="GET">
-                                
                                 <button class="text-indigo-400">편집</button>
                             </form>
                         </td>
@@ -175,7 +174,7 @@
             </tbody>
         </table>
         <div class="w-2/3 flex justify-end mt-3 mx-auto">
-                <a href="{{ route('record.history') }}" class="text-sm text-blue-400 hover:text-blue-600">전체 기록 보기</a>
+                <a href="{{ route('record.history', ['id' => $record->id]) }}" class="text-sm text-blue-400 hover:text-blue-600">전체 기록 보기</a>
         </div>
         <style>
             .profit-win { color: #2563eb; font-weight: bold;}   /* Tailwind의 text-blue-600 정도 */

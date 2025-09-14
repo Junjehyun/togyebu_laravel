@@ -23,28 +23,28 @@
                     <tr>
                         <td class="w-[15%] border px-3 py-2">
                             <input type="text" name="betting_date"
-                                    class="w-full border rounded px-2 py-1 text-sm"
-                                    value="{{ \Carbon\Carbon::parse($record->betting_date)->format('y/m/d') }}">
+                                    class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
+                                    value="{{ \Carbon\Carbon::parse($record->betting_date)->format('Y-m-d') }}">
                         </td>
                         <td class="w-[35%] border px-3 py-2">
                             <input type="text" name="title"
-                                    class="w-full border rounded px-2 py-1 text-sm"
-                                    value="{{ $record->title }}">
+                                    class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
+                                    value="{{ request('title', $record->title) }}">
                         </td>
                         <td class="w-[10%] border px-3 py-2">
                             <input type="text" name="folder_count"
-                                    class="w-full border rounded px-2 py-1 text-sm"
-                                    value="{{ $record->folder_count }}">
+                                    class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
+                                    value="{{ request('folder_count', $record->folder_count) }}">
                         </td>
                         <td class="w-[10%] border px-3 py-2">
                             <input type="text" step="0.01" name="odds" id="odds"
-                                    class="w-full border rounded px-2 py-1 text-sm"
-                                    value="{{ $record->odds }}">
+                                    class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
+                                    value="{{ request('odds', $record->odds) }}">
                         </td>
                         <td class="w-[10%] border px-3 py-2">
                             <input type="text" name="bet_amount" id="bet_amount"
-                                    class="w-full border rounded px-2 py-1 text-sm"
-                                    value="{{ $record->bet_amount }}">
+                                    class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
+                                    value="{{ request('bet_amount', $record->bet_amount) }}">
                         </td>
                     </tr>
                 </tbody>

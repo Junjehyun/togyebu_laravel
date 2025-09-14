@@ -2,7 +2,7 @@
 @section('title', ' 님의 기록')
 @section('content')
     <div class="w-2/3 flex flex-col justify-center items-center mt-20 mx-auto">
-        <h1 class="text-2xl">{{ $users[0]->name }}님의 베팅기록</h1>
+        <h1 class="text-2xl">{{ auth()->user()->name }}님의 베팅기록</h1>
         <h2 class="mt-5 text-xl">총 승  패  승률 </h2>
     </div>
     <table class="w-2/3 text-sm border-collapse mt-5 mx-auto">
@@ -21,18 +21,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="border px-2 py-1"></td>
-                <td class="border px-2 py-1"></td>
-                <td class="border px-2 py-1"></td>
-                <td class="border px-2 py-1"></td>
-                <td class="border px-2 py-1"></td>
-                <td class="border px-2 py-1"></td>
-                <td class="border px-2 py-1"></td>
-                <td class="border px-2 py-1"></td>
-                <td class="border px-2 py-1"></td>
-                <td class="border px-2 py-1"></td>
-            </tr>
+            @foreach($records as $record)
+                <tr>
+                    <td class="border px-2 py-1">{{ $record->id }}</td>
+                    <td class="border px-2 py-1">{{ $record->betting_date }}</td>
+                    <td class="border px-2 py-1">{{ $record->title }}</td>
+                    <td class="border px-2 py-1">{{ $record->odds }}</td>
+                    <td class="border px-2 py-1">{{ $record->bet_amount }}</td>
+                    <td class="border px-2 py-1">{{ $record->folder_count }}</td>
+                    <td class="border px-2 py-1">{{ $record->win_amount }}</td>
+                    <td class="border px-2 py-1"></td>
+                    <td class="border px-2 py-1"></td>
+                    <td class="border px-2 py-1"></td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
     <div class="w-2/3 flex justify-end mx-auto mt-4">
