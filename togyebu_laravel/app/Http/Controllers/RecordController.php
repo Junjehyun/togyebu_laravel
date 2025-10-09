@@ -18,11 +18,38 @@ class RecordController extends Controller
     public function history(Request $request) {
 
         $users = Auth::user();
-        $records = Record::where('user_id', $users->id)->get();
+
+        // 기록
+        $userRecords = Record::where('user_id', $users->id ?? '')->orderBy('created_at', 'asc')->get();
+
+        // 잔고 계산 로직
+        $balance = 0;
+        foreach($userRecords as $record) {
+            $balance += $record->profit; // 누적 계산
+            $record->balance = $balance; // 각 기록에 잔고 저장
+        }
+        
+        // 유저의 승률 계산 
+        $wins = $userRecords->where('result', 'win')->count();
+        $losses = $userRecords->where('result', 'lose')->count();
+        $draws = $userRecords->where('result', 'draw')->count();
+
+        // 확정된 경기 수
+        $confirmedRecords = $userRecords->whereIn('result', ['win', 'lose', 'draw'])->count();
+
+        $winsRate = $confirmedRecords > 0 ? round(($wins / $confirmedRecords) * 100, 2) : 0;
+
+        $userRecords = $userRecords->sortByDesc('created_at')->values();
 
         return view('record.history', [
             'users' => $users,
-            'records' => $records
+            //'records' => $records,
+            'wins' => $wins,
+            'losses' => $losses,
+            'draws' => $draws,
+            'winRate' => $winsRate,
+            'balance' => $balance,
+            'userRecords' => $userRecords,
         ]);
     }
 

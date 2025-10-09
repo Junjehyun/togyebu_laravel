@@ -44,7 +44,7 @@
             <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">최근 10경기</p>
                 <p class="text-lg font-bold">
-                    {{ $wins }}승 {{ $losses }}패 ({{ $winRate }}%)
+                    {{ $wins }}승 {{ $losses }}패 {{ $draws }}적특
                 </p>
             </div>
             <!-- 환수율 -->
@@ -55,17 +55,17 @@
             <!-- 베팅총액 -->
             <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">베팅총액</p>
-                <p class="text-lg font-bold">1,260,000₩</p>
+                <p class="text-lg font-bold">{{ number_format($totalBetAmount) }}원</p>
             </div>
             <!-- 적중률 -->
             <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">적중률</p>
-                <p class="text-lg font-bold">10.00%</p>
+                <p class="text-lg font-bold">{{ $winRate }}%</p>
             </div>
             <!-- 평균배당 -->
             <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">평균배당</p>
-                <p class="text-lg font-bold">11.99</p>
+                <p class="text-lg font-bold">{{ $avgOdds }}배</p>
             </div>
             <!-- 최다연승 -->
             <div class="p-3 rounded border border-blue-200">
@@ -78,7 +78,7 @@
                 <p class="text-lg font-bold">13</p>
             </div>
             <!-- 신규 추가 -->
-             <div class="p-3 rounded bg-rose-50">
+            <div class="p-3 rounded bg-rose-50">
                 <p class="text-md font-bold text-rose-500 hover:text-rose-600 mt-3">
                     @auth
                         <a href="{{ route('record.add') }}">신규추가</a>
@@ -104,16 +104,14 @@
                     <th class="border px-2 py-1">적중유무</th>
                     <th class="border px-2 py-1">수익</th>
                     <th class="border px-2 py-1">확정</th>
-                    <th class="border px-2 py-1">
-                        
-                    </th>
+                    <th class="border px-2 py-1"></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($records as $record)
                     <tr data-bet="{{ $record->bet_amount }}" data-odds="{{ $record->odds }}" class="@if($record->result === 'win') bg-indigo-50 @elseif($record->result === 'lose') bg-fuchsia-50 @elseif($record->result === 'draw') bg-gray-100 @endif">
                         <td class="border px-2 py-1 text-center">{{ $record->id }}</td>
-                        <td class="border px-2 py-1">{{ $record->betting_date->format('y/m/d') }}</td>
+                        <td class="border px-2 py-1">{{ $record->betting_date->format('Y-m-d') }}</td>
                         <td class="border px-2 py-1">{{ $record->title }}</td>
                         <td class="border px-2 py-1">{{ rtrim(rtrim(number_format($record->odds, 2, '.', ''), '0'), '.') }}</td>
                         <td class="border px-2 py-1">{{ number_format($record->bet_amount) }}₩</td>
