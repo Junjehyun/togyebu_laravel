@@ -36,14 +36,11 @@ class RecordController extends Controller
 
         // 확정된 경기 수
         $confirmedRecords = $userRecords->whereIn('result', ['win', 'lose', 'draw'])->count();
-
         $winsRate = $confirmedRecords > 0 ? round(($wins / $confirmedRecords) * 100, 2) : 0;
-
         $userRecords = $userRecords->sortByDesc('created_at')->values();
 
         return view('record.history', [
             'users' => $users,
-            //'records' => $records,
             'wins' => $wins,
             'losses' => $losses,
             'draws' => $draws,

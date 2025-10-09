@@ -27,7 +27,7 @@
     <div class="w-2/3 mt-15 mx-auto">
         <p class="text-center font-bold text-sky-800">
             @auth 
-                {{ $users->name }} <span class="text-black font-semibold">님의 누적기록</span>
+                {{ $users->name }}<span class="text-black font-semibold">님의 기록</span>
             @endauth
         </p>
         <div class="w-2/3 mx-auto mt-5 grid grid-cols-3 gap-3 text-center">
@@ -50,7 +50,7 @@
             <!-- 환수율 -->
             <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">환수율</p>
-                <p class="text-lg font-bold text-blue-600">88%</p>
+                <p class="text-lg font-bold text-blue-600">{{ $roi }}%</p>
             </div>
             <!-- 베팅총액 -->
             <div class="p-3 rounded border border-blue-200">
@@ -70,12 +70,12 @@
             <!-- 최다연승 -->
             <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">최다연승</p>
-                <p class="text-lg font-bold">1</p>
+                <p class="text-lg font-bold text-blue-600">{{ $maxWinStreak }}연승</p>
             </div>
             <!-- 최다연패 -->
             <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">최다연패</p>
-                <p class="text-lg font-bold">13</p>
+                <p class="text-lg font-bold text-red-600">{{ $maxLoseStreak }}연패</p>
             </div>
             <!-- 신규 추가 -->
             <div class="p-3 rounded bg-rose-50">
@@ -104,11 +104,12 @@
                     <th class="border px-2 py-1">적중유무</th>
                     <th class="border px-2 py-1">수익</th>
                     <th class="border px-2 py-1">확정</th>
+                    <th class="border px-2 py-1">잔고</th>
                     <th class="border px-2 py-1"></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($records as $record)
+                @foreach($userRecords as $record)
                     <tr data-bet="{{ $record->bet_amount }}" data-odds="{{ $record->odds }}" class="@if($record->result === 'win') bg-indigo-50 @elseif($record->result === 'lose') bg-fuchsia-50 @elseif($record->result === 'draw') bg-gray-100 @endif">
                         <td class="border px-2 py-1 text-center">{{ $record->id }}</td>
                         <td class="border px-2 py-1">{{ $record->betting_date->format('Y-m-d') }}</td>
@@ -161,6 +162,9 @@
                             @else
                                 <p class="text-gray-400">확정완료!</p>
                             @endif
+                        </td>
+                        <td class="border px-2 py-1">
+                            {{ number_format($record->balance) }}₩
                         </td>
                         <td class="border px-2 py-1">
                             <form action="{{ route('record.edit', ['id' => $record->id]) }}" method="GET">
