@@ -32,4 +32,8 @@ Route::prefix('record')->name('record.')->group(function () {
     Route::post('/betConfirm', [RecordController::class, 'betConfirm'])->name('betConfirm');
     Route::get('/edit/{id}', [RecordController::class, 'edit'])->name('edit');
     Route::post('/update/{id}', [RecordController::class, 'update'])->name('update');
+    // 삭제처리
+    Route::post('/delete/{id}', [RecordController::class, 'delete'])->name('delete');
+    // 입출금 내역기록 페이지 
+    Route::get('/transaction', [RecordController::class, 'transaction'])->name('transaction');
 });  

@@ -7,7 +7,6 @@ use App\Http\Requests\Record\UpdateRequest;
 use App\Models\Record;
 use App\Models\User;
 use App\Models\UserStat;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,10 +58,8 @@ class RecordController extends Controller
 
         $user = User::find(1); // 예시로 ID가 1인 사용자 조회
         $record = $user->records;
-
         // 예상 적중금액 계산
         $expected = ($request->odds ?? 0) * ($request->bet_amount ?? 0); 
-
         // 새로운 기록 생성
         $user->records()->create([
             'betting_date' => $request->betting_date,
@@ -136,24 +133,15 @@ class RecordController extends Controller
 
     public function update(UpdateRequest $request, $id) {
 
-        //dd($request->all());
-
         $record = Record::findOrFail($id);
-
         // 금액에서 콤마 제거 후 숫자 변환
         $betAmount = (int) str_replace(',', '', $request->input('bet_amount'));
-
-        //$betting_date = Carbon::createFromFormat('y-m-d', $request->input('betting_date'))
-        //                      ->format('Y-m-d');
         $betting_date = $request->input('betting_date');
-
-
         // 기록 업데이트
         $betting_date = $request->input('betting_date');
         $title = $request->input('title');
         $folder_count = $request->input('folder_count');
         $odds = $request->input('odds');
-
         // 업데이트 실행 (기록 수정)
         $record->update([
             'betting_date' => $betting_date,
@@ -162,11 +150,20 @@ class RecordController extends Controller
             'odds' => $odds,
             'bet_amount' => $betAmount,
         ]);
-
         // 리다이렉트 및 성공 메시지 처리
         return redirect()
             ->route('record.history')
             ->with('success', '베팅 기록이 수정되었습니다.');
     }
     
+    /**
+     * 입출금 내역기록 페이지
+     */
+    public function transaction($id) {
+        return view('record.transaction');
+    }
+
+    public function delete($id) {
+        return redirect()->route('record.history')->with('success', '베팅 기록이 삭제되었습니다.');
+    }
 }

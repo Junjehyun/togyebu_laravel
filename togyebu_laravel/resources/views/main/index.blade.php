@@ -4,7 +4,7 @@
     <div class="transition-all duration-700 ease-out transform opacity-0 translate-y-4 animate-fadeInUp">
         <h1 class="text-2xl font-semi-bold mb-4">TGB</h1>
         @auth
-            <p>{{ Auth::user()->name }}님, 오늘 하루도 건승입니다.</p>
+            <p><span class="text-sky-800">{{ Auth::user()->name }}</span>님, 오늘 하루도 건승입니다.</p>
         @else
             <p>로그인 후, 이용해주세요.</p>
         @endauth
@@ -24,19 +24,14 @@
             animation: fadeInUp 0.8s ease-out forwards;
         }
     </style>
-    <div class="w-2/3 mt-15 mx-auto">
-        <p class="text-center font-bold text-sky-800">
-            @auth 
-                {{ $users->name }}<span class="text-black font-semibold">님의 기록</span>
-            @endauth
-        </p>
+    <div class="w-2/3 mt-15 mx-auto transition-all duration-700 ease-out transform opacity-0 translate-y-4 animate-fadeInUp">
         <div class="w-2/3 mx-auto mt-5 grid grid-cols-3 gap-3 text-center">
             <!-- 누적 수익 -->
             <div class="p-3 rounded border border-blue-200">
                 <p class="text-sm text-gray-500">누적 수익</p>
                 <p class="mt-1"> 
-                    <span class="{{ $users->balance < 0 ? 'text-red-600 font-bold' : 'text-blue-600 font-bold' }}">
-                        {{ $users->balance > 0 ? '+' . number_format($users->balance) : number_format($users->balance) }}원
+                    <span class="{{ $user->balance < 0 ? 'text-red-600 font-bold' : 'text-blue-600 font-bold' }}">
+                        {{ $user->balance > 0 ? '+' . number_format($user->balance) : number_format($user->balance) }}원
                     </span>
                 </p>
             </div>
@@ -87,11 +82,11 @@
             </div>
         </div>
     </div>
-    <div class="w-2/3 flex justify-between mx-auto">
-        <h2 class="text-xl font-semibold mt-10">최근 10경기 기록</h2>
+    <div class="w-2/3 flex justify-between mx-auto transition-all duration-700 ease-out transform opacity-0 translate-y-4 animate-fadeInUp">
+        <h2 class="text-xl font-semibold mt-10">최근 10경기</h2>
     </div>
     @auth
-        <table class="w-2/3 text-sm border-collapse mt-2 mx-auto">
+        <table class="w-2/3 text-sm border-collapse mt-2 mx-auto transition-all duration-700 ease-out transform opacity-0 translate-y-4 animate-fadeInUp">
             <thead class="bg-gray-50">
                 <tr>
                     <th class="border px-2 py-1">순번</th>

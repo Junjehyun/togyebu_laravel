@@ -23,7 +23,6 @@ class IndexRequest extends FormRequest
     {
         return [
             //
-            
         ];
     }
 }
