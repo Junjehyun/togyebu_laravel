@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Main\IndexRequest;
 use App\Models\Record;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
 
 class MainController extends Controller
 {
@@ -91,6 +91,32 @@ class MainController extends Controller
             'maxWinStreak' => $maxWinStreak,
             'maxLoseStreak' => $maxLoseStreak,
             'roi' => $roi,
+        ]);
+    }
+
+    /**
+     * 차트 데이터 (ajax)
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function chartData() {
+        // 로그인 한 유저 정보
+        $user = Auth::user();
+        // 유저의 확정된 경기만 가져오기 (적중, 미적중, 적특)
+        $records = Record::where('user_id', $user->id)
+                ->whereIn('result', ['win', 'lose', 'draw'])
+                ->OrderBy('id', 'asc')
+                ->get();
+        // id 기준 수익 배열 구성
+        $chartData = $records->map(function ($record) {
+            return [
+                'id' => $record->id,
+                'profit' => $record->profit,
+            ];
+        });
+        // Json 형태로 반환
+        return response()->json([
+            'labels' => $chartData->pluck('id'),
+            'profits' => $chartData->pluck('profit'),
         ]);
     }
 }

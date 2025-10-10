@@ -1,74 +1,62 @@
 @extends('layouts.common')
 @section('title', 'MAIN')
 @section('content')
-    <div class="transition-all duration-700 ease-out transform opacity-0 translate-y-4 animate-fadeInUp">
-        <h1 class="text-2xl font-semi-bold mb-4">TGB</h1>
-        @auth
-            <p><span class="text-sky-800">{{ Auth::user()->name }}</span>님, 오늘 하루도 건승입니다.</p>
-        @else
-            <p>로그인 후, 이용해주세요.</p>
-        @endauth
-    </div>
-    <style>
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .animate-fadeInUp {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-    </style>
-    <div class="w-2/3 mt-15 mx-auto transition-all duration-700 ease-out transform opacity-0 translate-y-4 animate-fadeInUp">
-        <div class="w-2/3 mx-auto mt-5 grid grid-cols-3 gap-3 text-center">
+    @auth
+        <p><span class="text-sky-800">{{ Auth::user()->name }}</span>님, 오늘 하루도 건승입니다.</p>
+    @else
+        <p>로그인 후, 이용해주세요.</p>
+    @endauth
+    <div class="w-2/3 mt-20 mx-auto flex justify-between items-start gap-6">
+        <div class="w-1/2 bg-white border border-rose-50 rounded p-4 shadow-sm">
+            <h2 class="text-sm font-semibold mb-2 text-gray-600 text-center">손익 그래프</h2>
+            <div style="height: 182px;">
+                <canvas id="profitChart"></canvas>
+            </div>
+        </div>
+        <div class="w-1/2 grid grid-cols-3 gap-3 text-center">
             <!-- 누적 수익 -->
-            <div class="p-3 rounded border border-blue-200">
+            <div class="p-3 rounded border border-rose-50">
                 <p class="text-sm text-gray-500">누적 수익</p>
-                <p class="mt-1"> 
+                <p class="text-lg mt-1"> 
                     <span class="{{ $user->balance < 0 ? 'text-red-600 font-bold' : 'text-blue-600 font-bold' }}">
                         {{ $user->balance > 0 ? '+' . number_format($user->balance) : number_format($user->balance) }}원
                     </span>
                 </p>
             </div>
             <!-- 최근 10경기 기록 -->
-            <div class="p-3 rounded border border-blue-200">
+            <div class="p-3 rounded border border-rose-50">
                 <p class="text-sm text-gray-500">최근 10경기</p>
                 <p class="text-lg font-bold">
                     {{ $wins }}승 {{ $losses }}패 {{ $draws }}적특
                 </p>
             </div>
             <!-- 환수율 -->
-            <div class="p-3 rounded border border-blue-200">
+            <div class="p-3 rounded border border-rose-50">
                 <p class="text-sm text-gray-500">환수율</p>
-                <p class="text-lg font-bold text-blue-600">{{ $roi }}%</p>
+                <p class="text-lg font-bold">{{ $roi }}%</p>
             </div>
             <!-- 베팅총액 -->
-            <div class="p-3 rounded border border-blue-200">
+            <div class="p-3 rounded border border-rose-50">
                 <p class="text-sm text-gray-500">베팅총액</p>
                 <p class="text-lg font-bold">{{ number_format($totalBetAmount) }}원</p>
             </div>
             <!-- 적중률 -->
-            <div class="p-3 rounded border border-blue-200">
+            <div class="p-3 rounded border border-rose-50">
                 <p class="text-sm text-gray-500">적중률</p>
                 <p class="text-lg font-bold">{{ $winRate }}%</p>
             </div>
             <!-- 평균배당 -->
-            <div class="p-3 rounded border border-blue-200">
+            <div class="p-3 rounded border border-rose-50">
                 <p class="text-sm text-gray-500">평균배당</p>
                 <p class="text-lg font-bold">{{ $avgOdds }}배</p>
             </div>
             <!-- 최다연승 -->
-            <div class="p-3 rounded border border-blue-200">
+            <div class="p-3 rounded border border-rose-50">
                 <p class="text-sm text-gray-500">최다연승</p>
                 <p class="text-lg font-bold text-blue-600">{{ $maxWinStreak }}연승</p>
             </div>
             <!-- 최다연패 -->
-            <div class="p-3 rounded border border-blue-200">
+            <div class="p-3 rounded border border-rose-50">
                 <p class="text-sm text-gray-500">최다연패</p>
                 <p class="text-lg font-bold text-red-600">{{ $maxLoseStreak }}연패</p>
             </div>
@@ -82,11 +70,11 @@
             </div>
         </div>
     </div>
-    <div class="w-2/3 flex justify-between mx-auto transition-all duration-700 ease-out transform opacity-0 translate-y-4 animate-fadeInUp">
-        <h2 class="text-xl font-semibold mt-10">최근 10경기</h2>
+    <div class="w-2/3 flex justify-between mx-auto">
+        <h2 class="text-xl mt-10">최근 10개 베팅내역</h2>
     </div>
     @auth
-        <table class="w-2/3 text-sm border-collapse mt-2 mx-auto transition-all duration-700 ease-out transform opacity-0 translate-y-4 animate-fadeInUp">
+        <table class="w-2/3 text-sm border-collapse mt-2 mx-auto">
             <thead class="bg-gray-50">
                 <tr>
                     <th class="border px-2 py-1">순번</th>
@@ -123,9 +111,9 @@
                                 </select>
                             @else
                                 <span class="
-                                    @if($record->result === 'win') text-blue-600 font-bold
-                                    @elseif($record->result === 'lose') text-red-600 font-bold
-                                    @elseif($record->result === 'draw') text-gray-500 font-bold
+                                    @if($record->result === 'win') text-blue-600
+                                    @elseif($record->result === 'lose') text-red-600
+                                    @elseif($record->result === 'draw') text-gray-500
                                     @endif
                                 ">
                                     {{ $record->result === 'win' ? '적중' : ($record->result === 'lose' ? '미적중' : '적특') }}
@@ -159,7 +147,11 @@
                             @endif
                         </td>
                         <td class="border px-2 py-1">
-                            {{ number_format($record->balance) }}₩
+                            @if($record->balance >= 0)
+                                <span class="text-blue-600">{{ number_format($record->balance) }}₩</span>
+                            @else
+                                <span class="text-red-600">{{ number_format($record->balance) }}₩</span>
+                            @endif
                         </td>
                         <td class="border px-2 py-1">
                             <form action="{{ route('record.edit', ['id' => $record->id]) }}" method="GET">
@@ -174,9 +166,9 @@
                 <a href="{{ route('record.history', ['id' => $record->id]) }}" class="text-sm text-blue-400 hover:text-blue-600">전체 기록 보기</a>
         </div>
         <style>
-            .profit-win { color: #2563eb; font-weight: bold;}   /* Tailwind의 text-blue-600 정도 */
-            .profit-lose { color: #dc2626; font-weight: bold;}  /* Tailwind의 text-red-600 정도 */
-            .profit-draw { color: #6b7280; font-weight: bold;}  /* 선택: 회색 */
+            .profit-win { color: #2563eb; }   /* Tailwind의 text-blue-600 정도 */
+            .profit-lose { color: #dc2626; }  /* Tailwind의 text-red-600 정도 */
+            .profit-draw { color: #6b7280; }  /* 선택: 회색 */
         </style>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
@@ -218,15 +210,6 @@
                         }
                     });
                 });
-
-                // document.querySelectorAll("form").forEach(form => {
-                //     const select = form.closest("tr").querySelector(".result-select");
-                //     const hiddenResult = form.querySelector("input[name='result']");
-
-                //     form.addEventListener("submit", function() {
-                //         hiddenResult.value = select.value; // 선택된 값 담기
-                //     });
-                // });
                 document.querySelectorAll(".record-form").forEach(form => {
                     const row = form.closest("tr");
                     const select = row?.querySelector(".result-select");
