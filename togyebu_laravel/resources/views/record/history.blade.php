@@ -97,6 +97,7 @@
                 <th class="border px-2 py-1">수익</td>
                 <th class="border px-2 py-1">확정</th>
                 <th class="border px-2 py-1">잔고</td>
+                <th class="border px-2 py-1"></th>
             </tr>
         </thead>
         <tbody>
@@ -146,6 +147,11 @@
                         @endif
                     </td>
                     <td class="border px-2 py-1">{{ number_format($record->balance) }}₩</td>
+                    <td class="border px-2 py-1">
+                        <form action="{{ route('record.edit', ['id' => $record->id]) }}" method="GET">
+                            <button class="text-indigo-400">편집</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

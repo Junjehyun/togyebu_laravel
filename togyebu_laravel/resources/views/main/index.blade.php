@@ -64,14 +64,14 @@
             <div class="p-3 rounded bg-rose-50">
                 <p class="text-md font-bold text-rose-500 hover:text-rose-600 mt-3">
                     @auth
-                        <a href="{{ route('record.add') }}">신규추가</a>
+                        <a href="{{ route('record.add') }}">신규 내역추가</a>
                     @endauth
                 </p>
             </div>
         </div>
     </div>
     <div class="w-2/3 flex justify-between mx-auto">
-        <h2 class="text-xl mt-10">최근 10개 베팅내역</h2>
+        <h2 class="text-xl mt-10">최근 10회분 베팅내역</h2>
     </div>
     @auth
         <table class="w-2/3 text-sm border-collapse mt-2 mx-auto">
