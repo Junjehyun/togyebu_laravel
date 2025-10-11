@@ -5,3 +5,16 @@
 [x-cloak] {
     display: none;
 }
+
+/* 텍스트 가운데 줄긋기 */
+.font_linethrough {
+    text-decoration: line-through;
+}
+/* 텍스트 밑줄긋기 */
+.font_underline {
+    text-decoration: underline;
+}
+/* 텍스트 윗줄긋기 */
+.font_overline {
+    text-decoration: overline;
+}
