@@ -29,17 +29,31 @@
             @endauth
             <li>
                 <a href="#"
-                   class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
+                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
                     토론게시판
                 </a>
             </li>
             <li>
                 <a href="#"
-                   class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
+                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
                     문의 / 건의
                 </a>
             </li>
             <!-- 필요하면 계속 추가 -->
+            <li>
+                <a href="#"
+                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
+                    공지사항
+                </a>
+            </li>
+            @auth
+                <li>
+                    <a href="{{  route('admin.devlog') }}"
+                        class="block px-3 py-2 rounded-md hover:bg-gray-100 transition font-bold text-rose-500">
+                        개발일지
+                    </a>
+                </li>
+            @endauth
         </ul>
     </nav>
 </aside>

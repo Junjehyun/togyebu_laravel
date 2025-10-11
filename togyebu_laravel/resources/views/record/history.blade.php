@@ -1,6 +1,7 @@
 @extends('layouts.common')
 @section('title', ' 님의 기록')
 @section('content')
+    {{ Auth::user()->name }}님의 기록
     <div class="w-2/3 mt-20 mx-auto flex justify-center items-start gap-6">
         <div class="w-full grid grid-cols-3 gap-3 text-center">
             <!-- 누적 수익 -->

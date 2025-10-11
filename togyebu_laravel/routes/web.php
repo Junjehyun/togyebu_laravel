@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\RecordController;
@@ -48,5 +49,9 @@ Route::prefix('record')->name('record.')->group(function () {
     Route::get('/chartData', [RecordController::class, 'chartData'])->name('chartData');
     // 폴더별 통계 ajax
     Route::get('/chartFolder', [RecordController::class, 'chartFolder'])->name('chartFolder');
-
 });  
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    // 개발일지 화면 
+    Route::get('/devlog', [AdminController::class, 'devlog'])->name('devlog');
+});
