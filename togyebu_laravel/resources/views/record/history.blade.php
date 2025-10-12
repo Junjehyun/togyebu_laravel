@@ -13,9 +13,9 @@
                     </span>
                 </p>
             </div>
-            <!-- 최근 10경기 기록 -->
+            <!-- 통산 전적 -->
             <div class="p-3 rounded border border-rose-50">
-                <p class="text-sm text-gray-500">최근 10경기</p>
+                <p class="text-sm text-gray-500">통산 전적</p>
                 <p class="text-lg font-bold">
                     {{ $wins }}승 {{ $losses }}패 {{ $draws }}적특
                 </p>
@@ -99,6 +99,7 @@
                 <th class="border px-2 py-1">확정</th>
                 <th class="border px-2 py-1">잔고</td>
                 <th class="border px-2 py-1"></th>
+                <th class="border px-2 py-1"></th>
             </tr>
         </thead>
         <tbody>
@@ -108,14 +109,14 @@
                     <td class="border px-2 py-1">{{ $record->betting_date->format('Y-m-d') }}</td>
                     <td class="border px-2 py-1">{{ $record->title }}</td>
                     <td class="border px-2 py-1 text-center">{{ $record->odds }}</td>
-                    <td class="border px-2 py-1 text-center">{{ number_format($record->bet_amount) }}₩</td>
+                    <td class="border px-2 py-1">{{ number_format($record->bet_amount) }}₩</td>
                     <td class="border px-2 py-1 text-center">{{ $record->folder_count }}</td>
                     <td class="border px-2 py-1">{{ number_format($record->win_amount) }}₩</td>
                     <td class="border px-2 py-1">
                         <span class="
-                                @if($record->result === 'win') text-blue-600 font-bold
-                                @elseif($record->result === 'lose') text-red-600 font-bold
-                                @elseif($record->result === 'draw') text-gray-500 font-bold
+                                @if($record->result === 'win') text-blue-600
+                                @elseif($record->result === 'lose') text-red-600
+                                @elseif($record->result === 'draw') text-gray-500
                                 @endif
                             ">
                                 {{ $record->result === 'win' ? '적중' : ($record->result === 'lose' ? '미적중' : '적특') }}
@@ -151,6 +152,12 @@
                     <td class="border px-2 py-1">
                         <form action="{{ route('record.edit', ['id' => $record->id]) }}" method="GET">
                             <button class="text-indigo-400">편집</button>
+                        </form>
+                    </td>
+                    <td class="border px-2 py-1">
+                        <form action="{{ route('record.delete', ['id' => $record->id]) }}" method="POST" onsubmit="return confirm('해당 기록이 삭제됩니다.');">
+                            @csrf
+                            <button class="text-rose-500">삭제</button>
                         </form>
                     </td>
                 </tr>

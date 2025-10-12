@@ -28,7 +28,7 @@
                         </td>
                         <td class="border px-3 py-2">
                             <input type="text" name="betting_date"
-                                    class="w-full border rounded px-2 py-1 text-sm" placeholder="ex)19001212">
+                                    class="w-full border rounded px-2 py-1 text-sm" placeholder="ex)19991015" maxlength="10" oninput="autoHyphenDate(this)">
                         </td>
                         <td class="border px-3 py-2">
                             <input type="text" name="folder_count"

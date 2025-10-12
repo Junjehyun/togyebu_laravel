@@ -41,7 +41,7 @@ Route::prefix('record')->name('record.')->group(function () {
     Route::get('/edit/{id}', [RecordController::class, 'edit'])->name('edit');
     // 수정 처리
     Route::post('/update/{id}', [RecordController::class, 'update'])->name('update');
-    // 삭제처리
+    // 삭제 처리
     Route::post('/delete/{id}', [RecordController::class, 'delete'])->name('delete');
     // 입출금 내역기록 페이지 
     Route::get('/transaction', [RecordController::class, 'transaction'])->name('transaction');

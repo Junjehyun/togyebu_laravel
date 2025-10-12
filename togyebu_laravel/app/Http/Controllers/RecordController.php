@@ -103,15 +103,21 @@ class RecordController extends Controller
             'maxLoseStreak' => $maxLoseStreak,
         ]);
     }
-
+    /**
+     * 신규 추가 화면
+     */
     public function add() {
 
         return view('record.add');
     }
 
+    /**
+     * 신규등록 처리
+     */
     public function store(AddRequest $request) {
 
-        $user = User::find(1); // 예시로 ID가 1인 사용자 조회
+        /** @var User $user */
+        $user = Auth::user();
         $record = $user->records;
         // 예상 적중금액 계산
         $expected = ($request->odds ?? 0) * ($request->bet_amount ?? 0); 
@@ -129,7 +135,9 @@ class RecordController extends Controller
         return redirect()->route('main.index')->with('success', '베팅 기록이 저장되었습니다.');
         
     }
-
+    /**
+     * 베팅 확정처리 ajax
+     */
     public function betConfirm(Request $request) {
 
         // record 조회
@@ -171,7 +179,9 @@ class RecordController extends Controller
         return back()->with('success', '베팅 결과가 확정되었습니다.');
 
     }
-
+    /**
+     * 수정 화면
+     */
     public function edit($id) {
 
         $record = Record::findOrFail($id);
@@ -185,7 +195,9 @@ class RecordController extends Controller
             'expected' => $expected
         ]);
     }
-
+    /**
+     * 수정 처리
+     */
     public function update(UpdateRequest $request, $id) {
 
         $record = Record::findOrFail($id);
@@ -210,7 +222,9 @@ class RecordController extends Controller
             ->route('record.history')
             ->with('success', '베팅 기록이 수정되었습니다.');
     }
-
+    /**
+     * 누적 수익 그래프 ajax
+     */
     public function chartData() {
         // 로그인 한 유저 정보
         $user = Auth::user();
@@ -232,7 +246,9 @@ class RecordController extends Controller
             'profits' => $chartData->pluck('profit'),
         ]);
     }
-
+    /**
+     * 폴더별 통계 ajax
+     */
     public function chartFolder() {
         $user = Auth::user();
 
@@ -267,7 +283,19 @@ class RecordController extends Controller
         return view('record.transaction');
     }
 
+    /**
+     * 기록 삭제 처리
+     */
     public function delete($id) {
+        // record 조회 및 삭제
+        $record = Record::findOrFail($id);
+        $record->delete();
+
+        // 유저 잔고 수정
+        $user = $record->user;
+        $user->balance -= $record->profit;
+        $user->save();
+        
         return redirect()->route('record.history')->with('success', '베팅 기록이 삭제되었습니다.');
     }
 }

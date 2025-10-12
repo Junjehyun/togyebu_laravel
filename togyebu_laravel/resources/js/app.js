@@ -214,6 +214,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 });
 
-
+// ===== 날짜 자동 하이픈 기능 =====
+function autoHyphenDate(input) {
+    let val = input.value.replace(/\D/g, ''); // 숫자만 남김
+    if (val.length >= 5 && val.length <= 6) {
+        input.value = val.replace(/(\d{4})(\d{1,2})/, '$1-$2');
+    } else if (val.length > 6) {
+        input.value = val.replace(/(\d{4})(\d{2})(\d{1,2}).*/, '$1-$2-$3');
+    } else {
+        input.value = val;
+    }
+}
+window.autoHyphenDate = autoHyphenDate;
 
 
