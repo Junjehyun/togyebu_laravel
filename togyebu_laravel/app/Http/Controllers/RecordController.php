@@ -40,12 +40,13 @@ class RecordController extends Controller
 
         // 환수율 계산
         $totalBet = $userRecords->sum('bet_amount');
-        $totalProfit = $userRecords->sum(function ($record) {
-            return $record->win_amount - $record->bet_amount;
-        });
+        // $totalProfit = $userRecords->sum(function ($record) {
+        //     return $record->win_amount - $record->bet_amount;
+        // });
+        $totalHit = $userRecords->where('result', 'win')->sum('win_amount');
 
         // 환수율 = (순수익 ÷ 총 베팅금) × 100
-        $roi = $totalBet > 0 ? round(($totalProfit / $totalBet) * 100) : 0;
+        $roi = $totalBet > 0 ? round(($totalHit / $totalBet) * 100) : 0;
 
         $latestRecords = $userRecords->sortByDesc('created_at')->take(10);
 

@@ -11,39 +11,39 @@
             <table class="w-2/3 border border-gray-300 text-sm mt-10">
                 <thead class="bg-zinc-50">
                     <tr>
-                        <th class="border px-3 py-2">제목</th>
-                        <th class="border px-3 py-2">날짜</th>
-                        <th class="border px-3 py-2">폴더수</th>
-                        <th class="border px-3 py-2">배당</th>
-                        <th class="border px-3 py-2">베팅금</th>
+                        <th class="w-[10%] border px-3 py-2">날짜</th>
+                        <th class="w-[35%] border px-3 py-2">제목</th>
+                        <th class="w-[5%] border px-3 py-2">폴더수</th>
+                        <th class="w-[7%] border px-3 py-2">배당</th>
+                        <th class="w-[7%] border px-3 py-2">베팅금</th>
                     </tr>
                 </thead>
                 <!-- 입력 행 -->
                 <tbody>
                     <tr>
                         <td class="border px-3 py-2">
-                            <input type="text" name="title"
-                                    class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="자유롭게 입력">
-                        </td>
-                        <td class="border px-3 py-2">
-                            <input type="text" name="betting_date"
+                            <input type="text" name="betting_date" value="{{ old('betting_date') }}"
                                     class="w-full border rounded px-2 py-1 text-sm" placeholder="ex)19991015" maxlength="10" oninput="autoHyphenDate(this)">
                         </td>
                         <td class="border px-3 py-2">
-                            <input type="text" name="folder_count"
-                                    class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="3">
+                            <input type="text" name="title"
+                                    class="w-full border rounded px-2 py-1 text-sm" value="{{ old('title') }}"
+                                    placeholder="ex) 바르셀로나 vs 아스날 (아스날 승)등 자유롭게 입력..">
                         </td>
                         <td class="border px-3 py-2">
-                            <input type="text" step="0.01" name="odds" id="odds"
+                            <input type="text" name="folder_count" value="{{ old('folder_count') }}"
                                     class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="2.35">
+                                    placeholder="ex) 3">
                         </td>
                         <td class="border px-3 py-2">
-                            <input type="text" name="bet_amount" id="bet_amount"
+                            <input type="text" step="0.01" name="odds" id="odds" value="{{ old('odds') }}"
                                     class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="100,000">
+                                    placeholder="ex) 2.35">
+                        </td>
+                        <td class="border px-3 py-2">
+                            <input type="text" name="bet_amount" id="bet_amount" value="{{ old('bet_amount') }}"
+                                    class="w-full border rounded px-2 py-1 text-sm"
+                                    placeholder="ex) 5,000">
                         </td>
                     </tr>
                 </tbody>
