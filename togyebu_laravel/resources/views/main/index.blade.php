@@ -96,7 +96,7 @@
                     <tr data-bet="{{ $record->bet_amount }}" data-odds="{{ $record->odds }}" class="@if($record->result === 'win') bg-indigo-50 @elseif($record->result === 'lose') bg-fuchsia-50 @elseif($record->result === 'draw') bg-gray-100 @endif">
                         <td class="border px-2 py-1 text-center">{{ $record->id }}</td>
                         <td class="border px-2 py-1">{{ $record->betting_date->format('Y-m-d') }}</td>
-                        <td class="border px-2 py-1">{{ $record->title }}</td>
+                        <td class="border px-2 py-1 text-xs">{{ $record->title }}</td>
                         <td class="border px-2 py-1">{{ rtrim(rtrim(number_format($record->odds, 2, '.', ''), '0'), '.') }}</td>
                         <td class="border px-2 py-1">{{ number_format($record->bet_amount) }}₩</td>
                         <td class="border px-2 py-1 text-center">{{ $record->folder_count }}</td>

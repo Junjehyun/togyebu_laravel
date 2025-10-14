@@ -13,7 +13,7 @@ class MainController extends Controller
         // 로그인 한 유저 정보
         $user = Auth::user();
         // 모든 기록 한 번에 가져오기
-        $userRecords = Record::where('user_id', $user->id)
+        $userRecords = Record::where('user_id', $user->id ?? '')
             ->orderBy('created_at', 'asc')
             ->get();
         // 최근 10경기
@@ -63,11 +63,10 @@ class MainController extends Controller
         }
         // 환수율 계산
         $totalBet = $userRecords->sum('bet_amount');
-        $totalProfit = $userRecords->sum(function ($record) {
-            return $record->win_amount - $record->bet_amount;
-        });
-        // 환수율 = (순수익 ÷ 총 베팅금) × 100
-        $roi = $totalBet > 0 ? round(($totalProfit / $totalBet) * 100) : 0;
+        $totalHit = $userRecords->where('result', 'win')->sum('win_amount');
+        // 환수율 = (적중금액 합계 / 베팅금액 합계) * 100
+        // ※ 100%면 본전, 100% 초과 시 수익, 100% 미만 시 손실
+        $roi = $totalBet > 0 ? round(($totalHit / $totalBet) * 100) : 0;
         // 잔고 계산 로직
         $balance = 0;
         foreach($userRecords as $record) {
