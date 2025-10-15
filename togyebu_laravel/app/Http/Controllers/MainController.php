@@ -62,8 +62,9 @@ class MainController extends Controller
             }
         }
         // 환수율 계산
-        $totalBet = $userRecords->sum('bet_amount');
-        $totalHit = $userRecords->where('result', 'win')->sum('win_amount');
+        $confirmedRecordsForRoi = $userRecords->whereIn('result', ['win', 'lose', 'draw']);
+        $totalBet = $confirmedRecordsForRoi->sum('bet_amount');
+        $totalHit = $confirmedRecordsForRoi->where('result', 'win')->sum('win_amount');
         // 환수율 = (적중금액 합계 / 베팅금액 합계) * 100
         // ※ 100%면 본전, 100% 초과 시 수익, 100% 미만 시 손실
         $roi = $totalBet > 0 ? round(($totalHit / $totalBet) * 100) : 0;

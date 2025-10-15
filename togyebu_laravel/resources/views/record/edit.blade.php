@@ -22,7 +22,7 @@
                 <tbody>
                     <tr>
                         <td class="w-[15%] border px-3 py-2">
-                            <input type="text" name="betting_date"
+                            <input type="text" name="betting_date" oninput="autoHyphenDate(this)" maxlength="10"
                                     class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
                                     value="{{ \Carbon\Carbon::parse($record->betting_date)->format('Y-m-d') }}">
                         </td>

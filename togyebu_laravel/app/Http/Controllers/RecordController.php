@@ -39,13 +39,11 @@ class RecordController extends Controller
         $userRecords = $userRecords->sortByDesc('created_at')->values();
 
         // 환수율 계산
-        $totalBet = $userRecords->sum('bet_amount');
-        // $totalProfit = $userRecords->sum(function ($record) {
-        //     return $record->win_amount - $record->bet_amount;
-        // });
-        $totalHit = $userRecords->where('result', 'win')->sum('win_amount');
-
-        // 환수율 = (순수익 ÷ 총 베팅금) × 100
+        $confirmedRecordsForRoi = $userRecords->whereIn('result', ['win', 'lose', 'draw']);
+        $totalBet = $confirmedRecordsForRoi->sum('bet_amount');
+        $totalHit = $confirmedRecordsForRoi->where('result', 'win')->sum('win_amount');
+        // 환수율 = (적중금액 합계 / 베팅금액 합계) * 100
+        // ※ 100%면 본전, 100% 초과 시 수익, 100% 미만 시 손실
         $roi = $totalBet > 0 ? round(($totalHit / $totalBet) * 100) : 0;
 
         $latestRecords = $userRecords->sortByDesc('created_at')->take(10);
@@ -204,7 +202,6 @@ class RecordController extends Controller
         $record = Record::findOrFail($id);
         // 금액에서 콤마 제거 후 숫자 변환
         $betAmount = (int) str_replace(',', '', $request->input('bet_amount'));
-        $betting_date = $request->input('betting_date');
         // 기록 업데이트
         $betting_date = $request->input('betting_date');
         $title = $request->input('title');

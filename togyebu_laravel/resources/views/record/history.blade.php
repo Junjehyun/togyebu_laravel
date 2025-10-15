@@ -2,7 +2,7 @@
 @section('title', ' 님의 기록')
 @section('content')
     {{ Auth::user()->name }}님의 기록
-    <div class="w-2/3 mt-20 mx-auto flex justify-center items-start gap-6">
+    <div class="w-2/3 mt-10 mx-auto flex justify-center items-start gap-6">
         <div class="w-full grid grid-cols-3 gap-3 text-center">
             <!-- 누적 수익 -->
             <div class="p-3 rounded border border-rose-50">
@@ -84,6 +84,9 @@
             </div>
         </div>
     </div>
+    <div class="w-2/3 flex justify-between mx-auto">
+        <h2 class="text-xl mt-10">최근 10회분 베팅레코드</h2>
+    </div>
     <table class="w-2/3 text-sm border-collapse mt-5 mx-auto">
         <thead class="bg-gray-50">
             <tr>
@@ -104,16 +107,24 @@
         </thead>
         <tbody>
             @foreach($userRecords as $record)
-                <tr class="@if($record->result === 'win') bg-indigo-50 @elseif($record->result === 'lose') bg-fuchsia-50 @elseif($record->result === 'draw') bg-gray-100 @endif">
-                    <td class="border px-2 py-1 text-center">{{ $record->id }}</td>
+                <tr data-bet="{{ $record->bet_amount }}" data-odds="{{ $record->odds }}" class="@if($record->result === 'win') bg-indigo-50 @elseif($record->result === 'lose') bg-fuchsia-50 @elseif($record->result === 'draw') bg-gray-100 @endif">
+                    <td class="border px-2 py-1 text-center">{{ $userRecords->count() - $loop->index }}</td>
                     <td class="border px-2 py-1">{{ $record->betting_date->format('Y-m-d') }}</td>
-                    <td class="border px-2 py-1">{{ $record->title }}</td>
+                    <td class="border px-2 py-1 text-xs">{{ $record->title }}</td>
                     <td class="border px-2 py-1 text-center">{{ $record->odds }}</td>
                     <td class="border px-2 py-1">{{ number_format($record->bet_amount) }}₩</td>
                     <td class="border px-2 py-1 text-center">{{ $record->folder_count }}</td>
                     <td class="border px-2 py-1">{{ number_format($record->win_amount) }}₩</td>
                     <td class="border px-2 py-1">
-                        <span class="
+                        @if($record->result === 'pending')
+                            <select class="result-select border rounded px-2 py-1 text-sm appearance-none pr-7 bg-white">
+                                <option value="pending" {{ $record->result === 'pending' ? 'selected' : '' }}>진행중</option>
+                                <option value="win" {{ $record->result === 'win' ? 'selected' : '' }}>적중</option>
+                                <option value="lose" {{ $record->result === 'lose' ? 'selected' : '' }}>미적중</option>
+                                <option value="draw" {{ $record->result === 'draw' ? 'selected' : '' }}>적특</option>
+                            </select>
+                        @else
+                            <span class="
                                 @if($record->result === 'win') text-blue-600
                                 @elseif($record->result === 'lose') text-red-600
                                 @elseif($record->result === 'draw') text-gray-500
@@ -121,8 +132,9 @@
                             ">
                                 {{ $record->result === 'win' ? '적중' : ($record->result === 'lose' ? '미적중' : '적특') }}
                             </span>
+                        @endif
                     </td>
-                    <td class="border px-2 py-1">
+                    <td class="border px-2 py-1 text-center profit-cell">
                         @if($record->result === 'pending')
                             ?
                         @else
@@ -148,7 +160,13 @@
                             <p class="text-gray-400">확정완료!</p>
                         @endif
                     </td>
-                    <td class="border px-2 py-1">{{ number_format($record->balance) }}₩</td>
+                    <td class="border px-2 py-1">
+                        @if($record->balance >= 0)
+                            <span class="text-blue-600">{{ number_format($record->balance) }}₩</span>
+                        @else
+                            <span class="text-red-600">{{ number_format($record->balance) }}₩</span>
+                        @endif
+                    </td>
                     <td class="border px-2 py-1">
                         <form action="{{ route('record.edit', ['id' => $record->id]) }}" method="GET">
                             <button class="text-indigo-400">편집</button>
@@ -169,5 +187,62 @@
             뒤로
         </a>
     </div>
+    <style>
+        .profit-win { color: #2563eb; }   /* Tailwind의 text-blue-600 정도 */
+        .profit-lose { color: #dc2626; }  /* Tailwind의 text-red-600 정도 */
+        .profit-draw { color: #6b7280; }  /* 선택: 회색 */
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".result-select").forEach(select => {
+                select.addEventListener("change", function() {
+                    const row = this.closest("tr");
+                    const bet = parseFloat(row.dataset.bet);
+                    const odds = parseFloat(row.dataset.odds);
+                    const profitCell = row.querySelector(".profit-cell");
+                    let cssClass = "";
+                    let result = "";
+                    // 적중, 미적중, 적특에 따른 수익 계산 & 색상 적용
+                    switch(this.value) {
+                        case "win":
+                            result = (bet * odds) - bet;
+                            cssClass = "profit-win";
+                            break;
+                        case "lose":
+                            result = -bet;
+                            cssClass = "profit-lose";
+                            break;
+                        case "draw":
+                            alert('2폴더 이상 부분 적중특례인 경우, 배당값을 직접 편집 부탁드립니다.')
+                            result = 0;
+                            cssClass = "profit-draw";
+                            break;
+                        case "pending":
+                            result = "?";
+                            break;
+                    }
+                    // 초기화
+                    profitCell.classList.remove("profit-win", "profit-lose", "profit-draw");
+                    // 값 넣기 + 색상 적용
+                    if(this.value === "pending") {
+                        profitCell.textContent = "?";
+                    } else {
+                        profitCell.textContent = result.toLocaleString("ko-KR") + "₩";
+                        if(cssClass) profitCell.classList.add(cssClass);
+                    }
+                });
+            });
+            document.querySelectorAll(".record-form").forEach(form => {
+                const row = form.closest("tr");
+                const select = row?.querySelector(".result-select");
+                const hiddenResult = form.querySelector("input[name='result']");
+                if (!select || !hiddenResult) return;
+
+                form.addEventListener("submit", () => {
+                    hiddenResult.value = select.value;
+                });
+            });
+        });
+    </script>
 @endsection
 

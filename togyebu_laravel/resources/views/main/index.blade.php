@@ -6,7 +6,7 @@
     @else
         <p>로그인 후, 이용해주세요.</p>
     @endauth
-    <div class="w-2/3 mt-20 mx-auto flex justify-between items-start gap-6">
+    <div class="w-2/3 mt-10 mx-auto flex justify-between items-start gap-6">
         <div class="w-1/2 bg-white border border-rose-50 rounded p-4 shadow-sm">
             <h2 class="text-sm font-semibold mb-2 text-gray-600 text-center">손익 그래프</h2>
             <div style="height: 182px;">
@@ -71,7 +71,7 @@
         </div>
     </div>
     <div class="w-2/3 flex justify-between mx-auto">
-        <h2 class="text-xl mt-10">최근 10회분 베팅내역</h2>
+        <h2 class="text-xl mt-10">최근 10회분 베팅레코드</h2>
     </div>
     @auth
         <table class="w-2/3 text-sm border-collapse mt-2 mx-auto">
@@ -94,7 +94,7 @@
             <tbody>
                 @foreach($userRecords as $record)
                     <tr data-bet="{{ $record->bet_amount }}" data-odds="{{ $record->odds }}" class="@if($record->result === 'win') bg-indigo-50 @elseif($record->result === 'lose') bg-fuchsia-50 @elseif($record->result === 'draw') bg-gray-100 @endif">
-                        <td class="border px-2 py-1 text-center">{{ $record->id }}</td>
+                        <td class="border px-2 py-1 text-center">{{ $userRecords->count() - $loop->index }}</td>
                         <td class="border px-2 py-1">{{ $record->betting_date->format('Y-m-d') }}</td>
                         <td class="border px-2 py-1 text-xs">{{ $record->title }}</td>
                         <td class="border px-2 py-1">{{ rtrim(rtrim(number_format($record->odds, 2, '.', ''), '0'), '.') }}</td>
