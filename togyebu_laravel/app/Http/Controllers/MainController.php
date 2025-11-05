@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 class MainController extends Controller
 {
     public function index(IndexRequest $request) {
+        // 로그인이 안됐을 경우는 로그인 페이지로 리다이렉트
+        // 추후에 별도로 메세지 띄워야함.
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
         // 로그인 한 유저 정보
         $user = Auth::user();
         // 모든 기록 한 번에 가져오기
