@@ -2,7 +2,7 @@
 @section('title', '신규추가')
 @section('content')
     <div class="mt-5">
-        <h1 class="text-xl flex justify-center">신규 추가</h1>
+        <h1 class="text-xl flex justify-center">신규 베팅 추가</h1>
     </div>
     <form action="{{ route('record.store') }}" method="POST">
         @csrf
@@ -12,7 +12,7 @@
                 <thead class="bg-zinc-50">
                     <tr>
                         <th class="w-[10%] border px-3 py-2">날짜</th>
-                        <th class="w-[35%] border px-3 py-2">제목</th>                       
+                        <th class="w-[35%] border px-3 py-2">타이틀</th>                       
                         <th class="w-[7%] border px-3 py-2">배당</th>
                         <th class="w-[7%] border px-3 py-2">베팅금</th>
                         <th class="w-[5%] border px-3 py-2">폴더수</th>
@@ -33,17 +33,17 @@
                         <td class="border px-3 py-2">
                             <input type="text" step="0.01" name="odds" id="odds" value="{{ old('odds') }}"
                                     class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="ex) 2.35">
+                                    placeholder="2.35">
                         </td>
                         <td class="border px-3 py-2">
                             <input type="text" name="bet_amount" id="bet_amount" value="{{ old('bet_amount') }}"
                                     class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="ex) 5,000">
+                                    placeholder="5,000">
                         </td>
                         <td class="border px-3 py-2">
                             <input type="text" name="folder_count" value="{{ old('folder_count') }}"
                                     class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="ex) 3">
+                                    placeholder="3">
                         </td>
                     </tr>
                 </tbody>
