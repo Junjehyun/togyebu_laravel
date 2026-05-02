@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chiron+Sung+HK:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') - TGB</title>
+    <title>@yield('title') - Bet Log System TGB</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex">
