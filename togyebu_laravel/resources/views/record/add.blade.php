@@ -1,68 +1,58 @@
 @extends('layouts.common')
 @section('title', '신규추가')
 @section('content')
-    <div class="mt-5">
-        <h1 class="text-xl flex justify-center">신규 베팅 추가</h1>
-    </div>
+<div class="max-w-3xl mx-auto">
+    <h1 class="text-2xl font-semibold mb-6">신규 베팅 추가</h1>
+
     <form action="{{ route('record.store') }}" method="POST">
         @csrf
-        <div class="flex justify-center">
-            <!-- 타이틀 행 -->
-            <table class="w-2/3 border border-gray-300 text-sm mt-10">
-                <thead class="bg-zinc-50">
-                    <tr>
-                        <th class="w-[10%] border px-3 py-2">날짜</th>
-                        <th class="w-[35%] border px-3 py-2">타이틀</th>                       
-                        <th class="w-[7%] border px-3 py-2">배당</th>
-                        <th class="w-[7%] border px-3 py-2">베팅금</th>
-                        <th class="w-[5%] border px-3 py-2">폴더수</th>
-                    </tr>
-                </thead>
-                <!-- 입력 행 -->
-                <tbody>
-                    <tr>
-                        <td class="border px-3 py-2">
-                            <input type="text" name="betting_date" value="{{ old('betting_date', now()->format('Y-m-d')) }}"
-                                    class="w-full border rounded px-2 py-1 text-sm" maxlength="10" oninput="autoHyphenDate(this)">
-                        </td>
-                        <td class="border px-3 py-2">
-                            <input type="text" name="title"
-                                    class="w-full border rounded px-2 py-1 text-sm" value="{{ old('title') }}"
-                                    placeholder="ex) 바르셀로나 vs 아스날 (아스날 승)등 자유롭게 입력..">
-                        </td>
-                        <td class="border px-3 py-2">
-                            <input type="text" step="0.01" name="odds" id="odds" value="{{ old('odds') }}"
-                                    class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="2.35">
-                        </td>
-                        <td class="border px-3 py-2">
-                            <input type="text" name="bet_amount" id="bet_amount" value="{{ old('bet_amount') }}"
-                                    class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="5,000">
-                        </td>
-                        <td class="border px-3 py-2">
-                            <input type="text" name="folder_count" value="{{ old('folder_count') }}"
-                                    class="w-full border rounded px-2 py-1 text-sm"
-                                    placeholder="3">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="bg-white border border-gray-200 rounded-2xl p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1">날짜</label>
+                    <input type="text" name="betting_date" value="{{ old('betting_date', now()->format('Y-m-d')) }}"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm" maxlength="10" oninput="autoHyphenDate(this)">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-medium text-gray-500 mb-1">타이틀 / 메모</label>
+                    <input type="text" name="title" value="{{ old('title') }}"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm"
+                           placeholder="예) 바르셀로나 vs 아스날 (아스날 승)">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1">배당률</label>
+                    <input type="text" step="0.01" name="odds" id="odds" value="{{ old('odds') }}"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm" placeholder="2.35">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1">베팅 금액</label>
+                    <input type="text" name="bet_amount" id="bet_amount" value="{{ old('bet_amount') }}"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm" placeholder="5000">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1">폴더 수</label>
+                    <input type="text" name="folder_count" value="{{ old('folder_count') }}"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm" placeholder="3">
+                </div>
+            </div>
         </div>
-        
-        <div class="w-2/3 flex justify-between items-center mx-auto mt-4">
-            <p>예상적중금액: <span id="expected" class="text-rose-800 text-lg font-bold">0 </span> 원</p>
-            <div class="">
-                <!-- 버튼 -->
-                <a href="{{ route('main.index') }}" class="inline-block bg-pink-300 hover:bg-pink-400 text-white rounded px-3 py-1">
-                    뒤로
-                </a>
-                <button type="submit" class="bg-purple-300 text-white px-3 py-1 rounded hover:bg-purple-400">
-                    저장
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6 max-w-3xl mx-auto">
+            <p class="text-sm">예상 적중 금액: 
+                <span id="expected" class="text-rose-700 text-xl font-bold">0</span> 원
+            </p>
+            <div class="flex gap-3 w-full sm:w-auto">
+                <a href="{{ route('main.index') }}" class="flex-1 sm:flex-none text-center px-5 py-2.5 border rounded-xl text-sm hover:bg-gray-50">취소</a>
+                <button type="submit" class="flex-1 sm:flex-none bg-rose-600 hover:bg-rose-700 text-white px-8 py-2.5 rounded-xl font-medium text-sm transition">
+                    저장하기
                 </button>
             </div>
         </div>
     </form>
+</div>
     <script>
         const oddsInput = document.getElementById('odds');
         const betInput = document.getElementById('bet_amount');

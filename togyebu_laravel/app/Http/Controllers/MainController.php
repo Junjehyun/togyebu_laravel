@@ -9,13 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
 {
-    public function index(IndexRequest $request) {
-        // 로그인이 안됐을 경우는 로그인 페이지로 리다이렉트
-        // 추후에 별도로 메세지 띄워야함.
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        // 로그인 한 유저 정보
+    public function index(IndexRequest $request)
+    {
+        // 라우트가 이제 auth 미들웨어로 보호되므로 수동 체크 제거 (과거 잔재)
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         // 모든 기록 한 번에 가져오기
         $userRecords = Record::where('user_id', $user->id ?? '')

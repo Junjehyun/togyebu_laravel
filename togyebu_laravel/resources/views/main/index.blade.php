@@ -6,7 +6,7 @@
     @else
         <p>로그인 후, 이용해주세요.</p>
     @endauth
-    <div class="w-2/3 mt-10 mx-auto flex justify-between items-start gap-6">
+    <div class="max-w-6xl mx-auto mt-2 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="w-1/2 bg-white border border-rose-50 rounded p-4 shadow-sm">
             <h2 class="text-sm font-semibold mb-2 text-gray-600 text-center">손익 그래프</h2>
             <div style="height: 182px;">
@@ -70,11 +70,12 @@
             </div>
         </div>
     </div>
-    <div class="w-2/3 flex justify-between mx-auto">
-        <h2 class="text-xl mt-10">최근 10회분 베팅레코드</h2>
+    <div class="max-w-6xl mx-auto mt-8">
+        <h2 class="text-lg font-semibold mb-3">최근 10회분 베팅레코드</h2>
     </div>
     @auth
-        <table class="w-2/3 text-sm border-collapse mt-2 mx-auto">
+        <div class="max-w-6xl mx-auto overflow-x-auto border border-gray-200 rounded-2xl bg-white">
+        <table class="min-w-full text-sm border-collapse">
             <thead class="bg-gray-50">
                 <tr>
                     <th class="border px-2 py-1">순번</th>

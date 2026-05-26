@@ -1,59 +1,25 @@
-<aside class="w-52 h-screen text-gray-700 flex flex-col border-r border-gray-300">
-    <!-- 로고/브랜드 영역 -->
-    <div class="h-16 flex items-center justify-center border-b border-gray-300">
-        <a href="{{ route('main.index') }}" class="text-lg font-bold">TGB</a>
-    </div>
+@php
+    $isMobile = $mobile ?? false;
+@endphp
 
-    <!-- 메뉴 리스트 -->
-    <nav class="flex-1 overflow-y-auto">
-        <ul class="flex flex-col space-y-1 p-3 text-sm">
-            @auth
-                <li>
-                    <a href="{{ route('record.history') }}"
-                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
-                        {{ Auth::user()->name }}님의 배팅기록
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('record.transaction') }}"
-                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
-                        입출금 내역기록
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
-                        메모장
-                    </a>
-                </li>
-            @endauth
-            <li>
-                <a href="#"
-                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
-                    토론게시판
-                </a>
-            </li>
-            <li>
-                <a href="#"
-                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
-                    문의 / 건의
-                </a>
-            </li>
-            <!-- 필요하면 계속 추가 -->
-            <li>
-                <a href="#"
-                    class="block px-3 py-2 rounded-md hover:bg-gray-100 transition">
-                    공지사항
-                </a>
-            </li>
-            @auth
-                <li>
-                    <a href="{{  route('admin.devlog') }}"
-                        class="block px-3 py-2 rounded-md hover:bg-gray-100 transition font-bold text-rose-500">
-                        개발일지
-                    </a>
-                </li>
-            @endauth
+@if (!$isMobile)
+    {{-- Desktop Sidebar Version --}}
+    <aside class="w-52 h-screen text-gray-700 flex flex-col border-r border-gray-300 bg-white shrink-0">
+        <div class="h-16 flex items-center justify-center border-b border-gray-200">
+            <a href="{{ route('main.index') }}" class="text-lg font-bold tracking-tight">TGB</a>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-2">
+            <ul class="flex flex-col space-y-1 px-2 text-sm">
+                @include('layouts._menu_links')
+            </ul>
+        </nav>
+    </aside>
+@else
+    {{-- Mobile Drawer Version (simpler padding, no fixed width) --}}
+    <nav class="py-2">
+        <ul class="flex flex-col space-y-1 px-2 text-sm">
+            @include('layouts._menu_links')
         </ul>
     </nav>
-</aside>
+@endif

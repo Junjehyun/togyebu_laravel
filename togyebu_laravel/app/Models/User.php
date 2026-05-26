@@ -34,7 +34,6 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'account',
         'email',
         'password',
         'status',
@@ -42,6 +41,7 @@ class User extends Authenticatable
         'login_ip',
         'phone',
         'note',
+        // 'balance'는 의도적으로 mass-assign에서 제외 (보안)
     ];
 
     /**

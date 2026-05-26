@@ -1,69 +1,55 @@
 @extends('layouts.common')
 @section('title', '기록 편집')
 @section('content')
-    <div class="mt-5">
-        <h1 class="text-xl flex justify-center">기록 편집</h1>
-    </div>
-    <form action="{{ route('record.update', ['id' => $record->id]) }}" method="POST">
+<div class="max-w-3xl mx-auto">
+    <h1 class="text-2xl font-semibold mb-6">기록 편집</h1>
+
+    <form action="{{ route('record.update', $record->id) }}" method="POST">
         @csrf
-        <div class="flex justify-center">
-            <!-- 타이틀 행 -->
-            <table class="w-2/3 border border-gray-300 text-sm mt-10">
-                <thead class="bg-zinc-50">
-                    <tr>
-                        <th class="border px-3 py-2">날짜</th>
-                        <th class="border px-3 py-2">제목</th>
-                        <th class="border px-3 py-2">폴더수</th>
-                        <th class="border px-3 py-2">배당</th>
-                        <th class="border px-3 py-2">베팅금</th>
-                    </tr>
-                </thead>
-                <!-- 입력 행 -->
-                <tbody>
-                    <tr>
-                        <td class="w-[15%] border px-3 py-2">
-                            <input type="text" name="betting_date" oninput="autoHyphenDate(this)" maxlength="10"
-                                    class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
-                                    value="{{ \Carbon\Carbon::parse($record->betting_date)->format('Y-m-d') }}">
-                        </td>
-                        <td class="w-[35%] border px-3 py-2">
-                            <input type="text" name="title"
-                                    class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
-                                    value="{{ request('title', $record->title) }}">
-                        </td>
-                        <td class="w-[10%] border px-3 py-2">
-                            <input type="text" name="folder_count"
-                                    class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
-                                    value="{{ request('folder_count', $record->folder_count) }}">
-                        </td>
-                        <td class="w-[10%] border px-3 py-2">
-                            <input type="text" step="0.01" name="odds" id="odds"
-                                    class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
-                                    value="{{ request('odds', $record->odds) }}">
-                        </td>
-                        <td class="w-[10%] border px-3 py-2">
-                            <input type="text" name="bet_amount" id="bet_amount"
-                                    class="w-full border border-zinc-100 rounded px-2 py-1 text-sm"
-                                    value="{{ request('bet_amount', $record->bet_amount) }}">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="bg-white border border-gray-200 rounded-2xl p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1">날짜</label>
+                    <input type="text" name="betting_date" value="{{ \Carbon\Carbon::parse($record->betting_date)->format('Y-m-d') }}"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm" oninput="autoHyphenDate(this)">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-medium text-gray-500 mb-1">타이틀</label>
+                    <input type="text" name="title" value="{{ request('title', $record->title) }}"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1">배당률</label>
+                    <input type="text" step="0.01" name="odds" id="odds" value="{{ request('odds', $record->odds) }}"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1">베팅 금액</label>
+                    <input type="text" name="bet_amount" id="bet_amount" value="{{ request('bet_amount', $record->bet_amount) }}"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1">폴더 수</label>
+                    <input type="text" name="folder_count" value="{{ request('folder_count', $record->folder_count) }}"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm">
+                </div>
+            </div>
         </div>
-        
-        <div class="w-2/3 flex justify-between items-center mx-auto mt-4">
-            <p>예상적중금액: <span id="expected" class="text-rose-800 text-lg font-bold">0 </span> 원</p>
-            <div class="">
-                <!-- 버튼 -->
-                <a href="{{ route('main.index') }}" class="inline-block bg-pink-300 hover:bg-pink-400 text-white rounded px-3 py-1">
-                    뒤로
-                </a>
-                <button type="submit" class="bg-purple-300 text-white px-3 py-1 rounded hover:bg-purple-400">
-                    저장
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
+            <p class="text-sm">예상 적중 금액: 
+                <span id="expected" class="text-rose-700 text-xl font-bold">0</span> 원
+            </p>
+            <div class="flex gap-3 w-full sm:w-auto">
+                <a href="{{ route('record.history') }}" class="flex-1 sm:flex-none text-center px-5 py-2.5 border rounded-xl text-sm hover:bg-gray-50">취소</a>
+                <button type="submit" class="flex-1 sm:flex-none bg-rose-600 hover:bg-rose-700 text-white px-8 py-2.5 rounded-xl font-medium text-sm transition">
+                    저장하기
                 </button>
             </div>
         </div>
     </form>
+</div>
     <script>
         const oddsInput = document.getElementById('odds');
         const betInput = document.getElementById('bet_amount');
